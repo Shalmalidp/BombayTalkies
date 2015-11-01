@@ -2,19 +2,17 @@ import $ from 'jquery';
 import Backbone from 'backbone';
 import React from 'react';
 import ReactDom from 'react-dom';
+import './ajax_setup';
 
-import {
-    ArtistTemplate,
-    BollywoodTemplate,
-    AddTemplate,
-    EditTemplate,
-    Spinner,
-} from './views';
+import {ArtistTemplate}     from './views';
+import {BollywoodTemplate}  from './views';
+import {AddTemplate}        from './views';
+import {EditTemplate}       from './views';
+import {Spinner}            from './views';
 
-import {
-    BollywoodCollection,
-    ArtistModel
-} from './resources';
+
+import {BollywoodCollection} from './resources';
+import {ArtistModel}         from './resources';
 
 
 // const RECORD = {message:"All the things"};
@@ -28,38 +26,42 @@ routes: {
   "editForm"      : "showformEdit"
 }, //end of routes
     
+initialize(appElement) {
+  this.el = appElement;
+  let collection = new BollywoodCollection();
+  this.goto('redirecttoBollywoodCollection', { replace :true } );
+
+},
+
 start(){
   Backbone.history.start();
-  return this;
 },
+
 
 goto(route){
 this.navigate(route, {trigger: true});
 },
 
-initialise(appElement){
-  this.el = appElement;
 
-//creating instance of Bollywood collection to later fetch data to display
-  let collection = new BollywoodCollection();
-
-  this.navigate(`redirecttoBollywoodCollection`,{trigger: true , replace :true});
-},
-
-//SHOWS IMAGES ON THE HOME SCREEN
-redirecttoBollywoodCollection(){
+//TRYING SHOWS IMAGES ON THE HOME SCREEN
+redirecttoBollywoodCollection() {
   //fetching data from the collection instance to act on it 
-    console.log(this);
-  this.collection.fetch().then(()=>{
+      this.collection.fetch().then(() => {
+       console.log(collection);//fetch error
 //new way
-    ReactDom.render(
-      <BollywoodCollection id={this.collection.objectId} onClick={(id)=>this.goto('Artist/'+id)} data={this.collection.toJSON()}/>,
-      this.el);
-
+         ReactDom.render(<BollywoodTemplate 
+           id={this.collection.objectId}  
+           onClick={(id)=>this.goto('Artist/'+id)} 
+           data={this.collection.toJSON()}/>,
+            this.el);
+      });
+        //onImageSelect={this.selectImage.bind(this)} JD's code if needed
    //old way
     //this.el.html(BollywoodTemplate(this.collection.toJSON()) );
-    
-  });
+},
+
+selectImage(id){
+  this.navigate('Artist/'+id, {trigger :true})
 },
 
 //SHOWS SINGLE ACTOR
@@ -68,13 +70,13 @@ showArtist(id){
     let photo = this.collection.get(id);
 
     if (photo){
-      this.render(<ArtistTemplate images={photo.collection.get(id)}/>);
+      this.render(<ArtistTemplate data={photo.collection.get(id)}/>);
     } 
     else {
       //console.log('adding this model');
       photo = this.collection.add(id);
       photo.fetch().then( () => {
-        this.render(<ArtistTemplate images={photo.toJSON()}/>);
+      this.render(<ArtistTemplate data={photo.toJSON()}/>);
       });
     }
 },

@@ -1,12 +1,11 @@
 import React from 'react';
+import ArtistModel from '../resources';
 // this.props{
 //    data:
 //    id:
 //    onClick:
-//    onItemSelect:
+//    onImageSelect:
 // }
-
-import ArtistModel from '../resources';
 
 export default React.createClass({
 
@@ -20,24 +19,20 @@ SelectHandler(id){
 
 displayAll(data){
 return(
-  <div>
-    <image src={data.Picture} id={data.objectID} onImageSelect={this.SelectHandler}/>
-
+  <div className='thumbnails' key = {data.objectId}>
+    <image src={data.Picture} id={data.objectId} onClick={this.SelectHandler(data.objectId)}/>
   </div>
   );
-
 },
 
+//trying to see the images on screen
 render() {
   return (
     <div className='collection-view'>
-        <div>
-          {this.props.data.map(this.displayAll)}
-        </div>
+        <h2> Details</h2>
+        <div>{this.props.data.map(this.displayAll)}</div>
     </div>
     );
-
 }
-
 
 });
