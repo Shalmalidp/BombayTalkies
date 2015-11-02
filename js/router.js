@@ -59,7 +59,6 @@ home() {
            onImageSelect={(id)=>this.goto('Artist/'+ id)} 
            data={this.collection.toJSON()}/>);
       });
-        //onImageSelect={this.selectImage.bind(this)} JD's code if needed
    //old way
     //this.el.html(BollywoodTemplate(this.collection.toJSON()) );
 },

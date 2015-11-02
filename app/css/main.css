@@ -2025,6 +2025,69 @@ html {
   content: ""; }
 
 body {
-  background: #e2ebf3; }
+  background: #e2ebf3;
+  font-family: 'Lobster Two', cursive;
+  font-style: italic; }
+
+img.header-image {
+  width: 7%;
+  height: 80px;
+  border-radius: 50%;
+  margin-left: 34%;
+  margin-right: 30%; }
+
+.header-text {
+  display: inline-block;
+  vertical-align: top; }
+
+.buttons {
+  margin: 0;
+  padding: 0; }
+
+.collection-header {
+  margin: 1%; }
+
+.add {
+  line-height: 30px;
+  width: 100px;
+  margin-left: 40%;
+  border: none;
+  background: none; }
+
+.edit {
+  line-height: 30px;
+  width: 150px;
+  margin-left: 3%;
+  border: none;
+  background: none; }
+
+.home {
+  line-height: 30px;
+  width: 100px;
+  margin-left: 40%;
+  border: none;
+  background: none; }
+
+.thumbnails {
+  display: inline-block;
+  margin-left: 15px; }
+
+.collection-display {
+  border-radius: 15px;
+  display: inline-block;
+  margin: 2% 10%; }
+
+.singleImage {
+  margin: 2%; }
+
+.single {
+  border-radius: 5%;
+  display: inline-block; }
+
+.details {
+  display: inline-block;
+  width: 40%;
+  margin-left: 5%;
+  vertical-align: top; }
 
 /*# sourceMappingURL=main.css.map */

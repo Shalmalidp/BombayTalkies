@@ -3,9 +3,9 @@ import ArtistModel from '../resources';
 // this.props{
 //    data:
 //    id:
-//    onClick:
 //    onImageSelect:
 // }
+
 
 //export default React.createClass
 let BollywoodTemplate = React.createClass({
@@ -21,7 +21,7 @@ SelectHandler(id){
 displayAll(data){
 return(
   <div className='thumbnails' key = {data.objectId}>
-    <img src={data.Picture} id={data.objectId} onClick={() => this.SelectHandler(data.objectId)}/>
+    <img className='collection-display' src={data.Picture} width='280px' height='280px' id={data.objectId} onClick={() => this.SelectHandler(data.objectId)}/>
   </div>
   );
 },
@@ -30,9 +30,17 @@ return(
 render() {
   return (
     <div className='collection-view'>
-        <img className="header-image" src='http://www.daveandchad.com/wp-content/uploads/2015/07/bolly.jpg' />
-        <h2> Details</h2>
-        <div>{this.props.data.map(this.displayAll)}</div>
+        <div className='collection-header'>
+          <h2 className='header-text'>Bombay Talkies...</h2>
+          <img className="header-image" src='http://www.daveandchad.com/wp-content/uploads/2015/07/bolly.jpg' />
+        </div>
+        <div className='buttons'>
+            <button className='add'>Add</button>
+            <button className='edit'>Edit</button>
+        </div>
+        <hr/>
+        <div className='collection-display'>{this.props.data.map(this.displayAll)}</div>
+        <hr/>
     </div>
     );
 }

@@ -227,7 +227,6 @@ var Router = _backbone2['default'].Router.extend({
         },
         data: _this.collection.toJSON() }));
     });
-    //onImageSelect={this.selectImage.bind(this)} JD's code if needed
     //old way
     //this.el.html(BollywoodTemplate(this.collection.toJSON()) );
   },
@@ -294,13 +293,67 @@ var ArtistTemplate = _react2['default'].createClass({
     return _react2['default'].createElement(
       'div',
       { className: 'singleImage' },
-      _react2['default'].createElement('img', { src: this.props.data.Picture }),
       _react2['default'].createElement(
-        'p',
-        null,
-        this.props.data.About,
-        ' '
-      )
+        'div',
+        { className: 'collection-header' },
+        _react2['default'].createElement(
+          'h2',
+          { className: 'header-text' },
+          'Bombay Talkies...'
+        ),
+        _react2['default'].createElement('img', { className: 'header-image', src: 'http://www.daveandchad.com/wp-content/uploads/2015/07/bolly.jpg' })
+      ),
+      _react2['default'].createElement(
+        'div',
+        { className: 'buttons' },
+        _react2['default'].createElement(
+          'button',
+          { className: 'home' },
+          'Home'
+        ),
+        _react2['default'].createElement(
+          'button',
+          { className: 'edit' },
+          'Edit'
+        )
+      ),
+      _react2['default'].createElement('hr', null),
+      _react2['default'].createElement('img', { className: 'single', width: '300px', height: '300px', src: this.props.data.Picture }),
+      _react2['default'].createElement(
+        'div',
+        { className: 'details' },
+        _react2['default'].createElement(
+          'p',
+          null,
+          'Name ',
+          _react2['default'].createElement(
+            'i',
+            { className: 'fa fa-heart' },
+            ' '
+          ),
+          this.props.data.Name
+        ),
+        _react2['default'].createElement(
+          'p',
+          null,
+          'Number of years worked  : ',
+          this.props.data.Joined
+        ),
+        _react2['default'].createElement(
+          'p',
+          null,
+          'Age : ',
+          this.props.data.Age,
+          ' years '
+        ),
+        _react2['default'].createElement(
+          'p',
+          null,
+          'About  : ',
+          this.props.data.About
+        )
+      ),
+      _react2['default'].createElement('hr', null)
     );
   }
 });
@@ -328,7 +381,6 @@ var _resources2 = _interopRequireDefault(_resources);
 // this.props{
 //    data:
 //    id:
-//    onClick:
 //    onImageSelect:
 // }
 
@@ -350,7 +402,7 @@ var BollywoodTemplate = _react2['default'].createClass({
     return _react2['default'].createElement(
       'div',
       { className: 'thumbnails', key: data.objectId },
-      _react2['default'].createElement('img', { src: data.Picture, id: data.objectId, onClick: function () {
+      _react2['default'].createElement('img', { className: 'collection-display', src: data.Picture, width: '280px', height: '280px', id: data.objectId, onClick: function () {
           return _this.SelectHandler(data.objectId);
         } })
     );
@@ -361,17 +413,37 @@ var BollywoodTemplate = _react2['default'].createClass({
     return _react2['default'].createElement(
       'div',
       { className: 'collection-view' },
-      _react2['default'].createElement('img', { className: 'header-image', src: 'http://www.daveandchad.com/wp-content/uploads/2015/07/bolly.jpg' }),
       _react2['default'].createElement(
-        'h2',
-        null,
-        ' Details'
+        'div',
+        { className: 'collection-header' },
+        _react2['default'].createElement(
+          'h2',
+          { className: 'header-text' },
+          'Bombay Talkies...'
+        ),
+        _react2['default'].createElement('img', { className: 'header-image', src: 'http://www.daveandchad.com/wp-content/uploads/2015/07/bolly.jpg' })
       ),
       _react2['default'].createElement(
         'div',
-        null,
+        { className: 'buttons' },
+        _react2['default'].createElement(
+          'button',
+          { className: 'add' },
+          'Add'
+        ),
+        _react2['default'].createElement(
+          'button',
+          { className: 'edit' },
+          'Edit'
+        )
+      ),
+      _react2['default'].createElement('hr', null),
+      _react2['default'].createElement(
+        'div',
+        { className: 'collection-display' },
         this.props.data.map(this.displayAll)
-      )
+      ),
+      _react2['default'].createElement('hr', null)
     );
   }
 
