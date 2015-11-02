@@ -9,7 +9,7 @@ var _jquery2 = _interopRequireDefault(_jquery);
 
 var _parse_data = require('./parse_data');
 
-_jquery2['default'].ajax({
+_jquery2['default'].ajaxSetup({
 
   headers: {
     'X-Parse-Application-Id': _parse_data.APP_ID,
@@ -76,13 +76,7 @@ var _parse_dataJs = require('../parse_data.js');
 var ArtistModel = _backbone2['default'].Model.extend({
 	urlRoot: _parse_dataJs.APP_URL,
 
-	idAttribute: 'objectId',
-
-	//had not done this before but spoke to issac and he had done it need to ask JD "why ?"
-	templateData: function templateData() {
-		var data = this.toJSON();
-		return data;
-	}
+	idAttribute: 'objectId'
 
 });
 
@@ -110,7 +104,7 @@ var _parse_data = require('../parse_data');
 
 //export default Backbone.Collection.extend
 
-var BollywoodCollection = _backbone2['default'].Collection.extend({
+exports['default'] = _backbone2['default'].Collection.extend({
 
 	url: _parse_data.APP_URL,
 
@@ -120,8 +114,6 @@ var BollywoodCollection = _backbone2['default'].Collection.extend({
 		return data.results;
 	}
 });
-
-exports['default'] = BollywoodCollection;
 module.exports = exports['default'];
 
 },{"../parse_data":3,"./artist_model":4,"backbone":14}],6:[function(require,module,exports){
@@ -194,7 +186,7 @@ var _resourcesArtist_model2 = _interopRequireDefault(_resourcesArtist_model);
 var Router = _backbone2['default'].Router.extend({
 
   routes: {
-    "": "redirecttoBollywoodCollection", // redirect homescreen to bollywood pics
+    "": "home", // redirect homescreen to bollywood pics
     "Artist/:id": "showArtist",
     "addForm": "showformAdd",
     "editForm": "showformEdit"
@@ -202,12 +194,18 @@ var Router = _backbone2['default'].Router.extend({
 
   initialize: function initialize(appElement) {
     this.el = appElement;
-    var collection = new _resourcesBollywood_collection2['default']();
-    this.goto('redirecttoBollywoodCollection', { replace: true });
+    this.collection = new _resourcesBollywood_collection2['default']();
+
+    // this.goto('redirecttoBollywoodCollection', {trigger:true, replace :true } );
   },
 
   start: function start() {
     _backbone2['default'].history.start();
+    return this;
+  },
+
+  render: function render(component) {
+    _reactDom2['default'].render(component, this.el);
   },
 
   goto: function goto(route) {
@@ -215,27 +213,23 @@ var Router = _backbone2['default'].Router.extend({
   },
 
   //TRYING TO SHOWS IMAGES ON THE HOME SCREEN
-  redirecttoBollywoodCollection: function redirecttoBollywoodCollection() {
+  home: function home() {
     var _this = this;
 
     //fetching data from the collection instance to act on it
     this.collection.fetch().then(function () {
-      console.log(collection); //fetch error
+      //console.log(collection);//fetch error
       //new way
-      _reactDom2['default'].render(_react2['default'].createElement(_viewsBollywood_collection_template2['default'], {
+      _this.render(_react2['default'].createElement(_viewsBollywood_collection_template2['default'], {
         id: _this.collection.objectId,
-        onClick: function (id) {
+        onImageSelect: function (id) {
           return _this.goto('Artist/' + id);
         },
-        data: _this.collection.toJSON() }), _this.el);
+        data: _this.collection.toJSON() }));
     });
     //onImageSelect={this.selectImage.bind(this)} JD's code if needed
     //old way
     //this.el.html(BollywoodTemplate(this.collection.toJSON()) );
-  },
-
-  selectImage: function selectImage(id) {
-    this.navigate('Artist/' + id, { trigger: true });
   },
 
   //SHOWS SINGLE ACTOR
@@ -246,7 +240,7 @@ var Router = _backbone2['default'].Router.extend({
     var photo = this.collection.get(id);
 
     if (photo) {
-      this.render(_react2['default'].createElement(_viewsArtist_model_template2['default'], { data: photo.collection.get(id) }));
+      this.render(_react2['default'].createElement(_viewsArtist_model_template2['default'], { data: photo.toJSON() }));
     } else {
       //console.log('adding this model');
       photo = this.collection.add(id);
@@ -299,8 +293,14 @@ var ArtistTemplate = _react2['default'].createClass({
 
     return _react2['default'].createElement(
       'div',
-      { className: 'singleImage', onClick: this.clickHandler },
-      _react2['default'].createElement('img', { src: this.props.data.Picture })
+      { className: 'singleImage' },
+      _react2['default'].createElement('img', { src: this.props.data.Picture }),
+      _react2['default'].createElement(
+        'p',
+        null,
+        this.props.data.About,
+        ' '
+      )
     );
   }
 });
@@ -337,7 +337,7 @@ var BollywoodTemplate = _react2['default'].createClass({
   displayName: 'BollywoodTemplate',
 
   SelectHandler: function SelectHandler(id) {
-    this.prop.onImageSelect(id);
+    this.props.onImageSelect(id);
   },
 
   // SpinClickHAndler(){
@@ -345,10 +345,14 @@ var BollywoodTemplate = _react2['default'].createClass({
   // },
 
   displayAll: function displayAll(data) {
+    var _this = this;
+
     return _react2['default'].createElement(
       'div',
       { className: 'thumbnails', key: data.objectId },
-      _react2['default'].createElement('image', { src: data.Picture, id: data.objectId, onClick: this.SelectHandler(data.objectId) })
+      _react2['default'].createElement('img', { src: data.Picture, id: data.objectId, onClick: function () {
+          return _this.SelectHandler(data.objectId);
+        } })
     );
   },
 
@@ -357,6 +361,7 @@ var BollywoodTemplate = _react2['default'].createClass({
     return _react2['default'].createElement(
       'div',
       { className: 'collection-view' },
+      _react2['default'].createElement('img', { className: 'header-image', src: 'http://www.daveandchad.com/wp-content/uploads/2015/07/bolly.jpg' }),
       _react2['default'].createElement(
         'h2',
         null,

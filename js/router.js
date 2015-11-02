@@ -21,7 +21,7 @@ import ArtistModel         from './resources/artist_model';
 let Router = Backbone.Router.extend({
 
 routes: {
-  ""              : "redirecttoBollywoodCollection", // redirect homescreen to bollywood pics
+  ""              : "home", // redirect homescreen to bollywood pics
   "Artist/:id"   : "showArtist",
   "addForm"       : "showformAdd", 
   "editForm"      : "showformEdit"
@@ -29,12 +29,18 @@ routes: {
     
 initialize(appElement) {
   this.el = appElement;
-  let collection = new BollywoodCollection();
-  this.goto('redirecttoBollywoodCollection', { replace :true } );
+  this.collection = new BollywoodCollection();
+
+  // this.goto('redirecttoBollywoodCollection', {trigger:true, replace :true } );
 },
 
 start(){
   Backbone.history.start();
+  return this;
+},
+
+render(component){
+  ReactDom.render(component, this.el);
 },
 
 
@@ -43,25 +49,22 @@ this.navigate(route, {trigger: true});
 },
 
 //TRYING TO SHOWS IMAGES ON THE HOME SCREEN
-redirecttoBollywoodCollection() {
+home() {
   //fetching data from the collection instance to act on it 
       this.collection.fetch().then(() => {
-       console.log(collection);//fetch error
+       //console.log(collection);//fetch error
 //new way
-         ReactDom.render(<BollywoodTemplate 
+         this.render(<BollywoodTemplate 
            id={this.collection.objectId}  
-           onClick={(id)=>this.goto('Artist/'+id)} 
-           data={this.collection.toJSON()}/>,
-            this.el);
+           onImageSelect={(id)=>this.goto('Artist/'+ id)} 
+           data={this.collection.toJSON()}/>);
       });
         //onImageSelect={this.selectImage.bind(this)} JD's code if needed
    //old way
     //this.el.html(BollywoodTemplate(this.collection.toJSON()) );
 },
 
-selectImage(id){
-  this.navigate('Artist/'+id, {trigger :true})
-},
+
 
 //SHOWS SINGLE ACTOR
 showArtist(id){
@@ -69,7 +72,7 @@ showArtist(id){
     let photo = this.collection.get(id);
 
     if (photo){
-      this.render(<ArtistTemplate data={photo.collection.get(id)}/>);
+      this.render(<ArtistTemplate data={photo.toJSON()}/>);
     } 
     else {
       //console.log('adding this model');

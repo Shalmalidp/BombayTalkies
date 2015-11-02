@@ -4,7 +4,7 @@ import {APP_URL} from '../parse_data';
 
 //export default Backbone.Collection.extend
 
-let BollywoodCollection = Backbone.Collection.extend({
+export default Backbone.Collection.extend({
 	
 	url: APP_URL,
 	
@@ -15,5 +15,5 @@ let BollywoodCollection = Backbone.Collection.extend({
 	}
 });
 
-export default BollywoodCollection;
+
 

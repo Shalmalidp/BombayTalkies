@@ -11,7 +11,7 @@ import ArtistModel from '../resources';
 let BollywoodTemplate = React.createClass({
 
 SelectHandler(id){
-    this.prop.onImageSelect(id);
+    this.props.onImageSelect(id);
 },
 
 // SpinClickHAndler(){
@@ -21,7 +21,7 @@ SelectHandler(id){
 displayAll(data){
 return(
   <div className='thumbnails' key = {data.objectId}>
-    <image src={data.Picture} id={data.objectId} onClick={this.SelectHandler(data.objectId)}/>
+    <img src={data.Picture} id={data.objectId} onClick={() => this.SelectHandler(data.objectId)}/>
   </div>
   );
 },
@@ -30,6 +30,7 @@ return(
 render() {
   return (
     <div className='collection-view'>
+        <img className="header-image" src='http://www.daveandchad.com/wp-content/uploads/2015/07/bolly.jpg' />
         <h2> Details</h2>
         <div>{this.props.data.map(this.displayAll)}</div>
     </div>

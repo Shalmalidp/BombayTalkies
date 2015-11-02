@@ -17,8 +17,9 @@ clickHandler(event){
 render(){
 
 return(
-  <div className='singleImage' onClick={this.clickHandler}>
+  <div className='singleImage'>
     <img src={this.props.data.Picture}/>
+    <p>{this.props.data.About} </p>
   </div>
   );
 

@@ -5,13 +5,7 @@ import {APP_URL} from '../parse_data.js';
  let ArtistModel = Backbone.Model.extend({
 	urlRoot: APP_URL,
 	
-	idAttribute : 'objectId',
-
-//had not done this before but spoke to issac and he had done it need to ask JD "why ?"
-	templateData(){
-		let data = this.toJSON();
-		return data;
-	}
+	idAttribute : 'objectId'
 
 });
 

@@ -2,7 +2,7 @@ import $ from 'jquery';
 import{APP_ID, API_REST_KEY} from './parse_data';
 
 
-$.ajax({
+$.ajaxSetup({
 
 headers :{
   'X-Parse-Application-Id': APP_ID,
