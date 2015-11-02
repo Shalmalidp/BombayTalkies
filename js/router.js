@@ -4,15 +4,16 @@ import React from 'react';
 import ReactDom from 'react-dom';
 import './ajax_setup';
 
-import {ArtistTemplate}     from './views';
-import {BollywoodTemplate}  from './views';
+import ArtistTemplate       from './views/artist_model_template';
+import BollywoodTemplate    from './views/bollywood_collection_template';
+
 import {AddTemplate}        from './views';
 import {EditTemplate}       from './views';
 import {Spinner}            from './views';
 
 
-import {BollywoodCollection} from './resources';
-import {ArtistModel}         from './resources';
+import BollywoodCollection from './resources/bollywood_collection';
+import ArtistModel         from './resources/artist_model';
 
 
 // const RECORD = {message:"All the things"};
@@ -30,7 +31,6 @@ initialize(appElement) {
   this.el = appElement;
   let collection = new BollywoodCollection();
   this.goto('redirecttoBollywoodCollection', { replace :true } );
-
 },
 
 start(){
@@ -42,8 +42,7 @@ goto(route){
 this.navigate(route, {trigger: true});
 },
 
-
-//TRYING SHOWS IMAGES ON THE HOME SCREEN
+//TRYING TO SHOWS IMAGES ON THE HOME SCREEN
 redirecttoBollywoodCollection() {
   //fetching data from the collection instance to act on it 
       this.collection.fetch().then(() => {
@@ -80,9 +79,9 @@ showArtist(id){
       });
     }
 },
+
 showformAdd(){},
 showformEdit(){}
-
 
 });
 

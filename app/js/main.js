@@ -72,8 +72,10 @@ var _backbone2 = _interopRequireDefault(_backbone);
 
 var _parse_dataJs = require('../parse_data.js');
 
-exports['default'] = _backbone2['default'].Model.extend({
+//export default Backbone.Model.extend
+var ArtistModel = _backbone2['default'].Model.extend({
 	urlRoot: _parse_dataJs.APP_URL,
+
 	idAttribute: 'objectId',
 
 	//had not done this before but spoke to issac and he had done it need to ask JD "why ?"
@@ -83,6 +85,8 @@ exports['default'] = _backbone2['default'].Model.extend({
 	}
 
 });
+
+exports['default'] = ArtistModel;
 module.exports = exports['default'];
 
 },{"../parse_data.js":3,"backbone":14}],5:[function(require,module,exports){
@@ -104,13 +108,20 @@ var _artist_model2 = _interopRequireDefault(_artist_model);
 
 var _parse_data = require('../parse_data');
 
-exports['default'] = _backbone2['default'].Collection.extend({
+//export default Backbone.Collection.extend
+
+var BollywoodCollection = _backbone2['default'].Collection.extend({
+
 	url: _parse_data.APP_URL,
+
 	model: _artist_model2['default'],
+
 	parse: function parse(data) {
 		return data.results;
 	}
 });
+
+exports['default'] = BollywoodCollection;
 module.exports = exports['default'];
 
 },{"../parse_data":3,"./artist_model":4,"backbone":14}],6:[function(require,module,exports){
@@ -160,9 +171,23 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 require('./ajax_setup');
 
+var _viewsArtist_model_template = require('./views/artist_model_template');
+
+var _viewsArtist_model_template2 = _interopRequireDefault(_viewsArtist_model_template);
+
+var _viewsBollywood_collection_template = require('./views/bollywood_collection_template');
+
+var _viewsBollywood_collection_template2 = _interopRequireDefault(_viewsBollywood_collection_template);
+
 var _views = require('./views');
 
-var _resources = require('./resources');
+var _resourcesBollywood_collection = require('./resources/bollywood_collection');
+
+var _resourcesBollywood_collection2 = _interopRequireDefault(_resourcesBollywood_collection);
+
+var _resourcesArtist_model = require('./resources/artist_model');
+
+var _resourcesArtist_model2 = _interopRequireDefault(_resourcesArtist_model);
 
 // const RECORD = {message:"All the things"};
 
@@ -177,7 +202,7 @@ var Router = _backbone2['default'].Router.extend({
 
   initialize: function initialize(appElement) {
     this.el = appElement;
-    var collection = new _resources.BollywoodCollection();
+    var collection = new _resourcesBollywood_collection2['default']();
     this.goto('redirecttoBollywoodCollection', { replace: true });
   },
 
@@ -189,7 +214,7 @@ var Router = _backbone2['default'].Router.extend({
     this.navigate(route, { trigger: true });
   },
 
-  //TRYING SHOWS IMAGES ON THE HOME SCREEN
+  //TRYING TO SHOWS IMAGES ON THE HOME SCREEN
   redirecttoBollywoodCollection: function redirecttoBollywoodCollection() {
     var _this = this;
 
@@ -197,7 +222,7 @@ var Router = _backbone2['default'].Router.extend({
     this.collection.fetch().then(function () {
       console.log(collection); //fetch error
       //new way
-      _reactDom2['default'].render(_react2['default'].createElement(_views.BollywoodTemplate, {
+      _reactDom2['default'].render(_react2['default'].createElement(_viewsBollywood_collection_template2['default'], {
         id: _this.collection.objectId,
         onClick: function (id) {
           return _this.goto('Artist/' + id);
@@ -221,15 +246,16 @@ var Router = _backbone2['default'].Router.extend({
     var photo = this.collection.get(id);
 
     if (photo) {
-      this.render(_react2['default'].createElement(_views.ArtistTemplate, { data: photo.collection.get(id) }));
+      this.render(_react2['default'].createElement(_viewsArtist_model_template2['default'], { data: photo.collection.get(id) }));
     } else {
       //console.log('adding this model');
       photo = this.collection.add(id);
       photo.fetch().then(function () {
-        _this2.render(_react2['default'].createElement(_views.ArtistTemplate, { data: photo.toJSON() }));
+        _this2.render(_react2['default'].createElement(_viewsArtist_model_template2['default'], { data: photo.toJSON() }));
       });
     }
   },
+
   showformAdd: function showformAdd() {},
   showformEdit: function showformEdit() {}
 
@@ -238,7 +264,7 @@ var Router = _backbone2['default'].Router.extend({
 exports['default'] = Router;
 module.exports = exports['default'];
 
-},{"./ajax_setup":1,"./resources":6,"./views":12,"backbone":14,"jquery":16,"react":173,"react-dom":17}],8:[function(require,module,exports){
+},{"./ajax_setup":1,"./resources/artist_model":4,"./resources/bollywood_collection":5,"./views":12,"./views/artist_model_template":9,"./views/bollywood_collection_template":10,"backbone":14,"jquery":16,"react":173,"react-dom":17}],8:[function(require,module,exports){
 "use strict";
 
 },{}],9:[function(require,module,exports){
@@ -260,8 +286,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-exports['default'] = _react2['default'].createClass({
-  displayName: 'artist_model_template',
+// export default React.createClass
+
+var ArtistTemplate = _react2['default'].createClass({
+  displayName: 'ArtistTemplate',
 
   clickHandler: function clickHandler(event) {
     this.props.onSelect(this.props.id);
@@ -276,6 +304,8 @@ exports['default'] = _react2['default'].createClass({
     );
   }
 });
+
+exports['default'] = ArtistTemplate;
 module.exports = exports['default'];
 
 },{"react":173}],10:[function(require,module,exports){
@@ -302,8 +332,9 @@ var _resources2 = _interopRequireDefault(_resources);
 //    onImageSelect:
 // }
 
-exports['default'] = _react2['default'].createClass({
-  displayName: 'bollywood_collection_template',
+//export default React.createClass
+var BollywoodTemplate = _react2['default'].createClass({
+  displayName: 'BollywoodTemplate',
 
   SelectHandler: function SelectHandler(id) {
     this.prop.onImageSelect(id);
@@ -340,6 +371,8 @@ exports['default'] = _react2['default'].createClass({
   }
 
 });
+
+exports['default'] = BollywoodTemplate;
 module.exports = exports['default'];
 
 },{"../resources":6,"react":173}],11:[function(require,module,exports){

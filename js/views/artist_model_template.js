@@ -6,7 +6,9 @@
 
 import React from 'react';
 
-export default React.createClass({
+// export default React.createClass
+
+let ArtistTemplate = React.createClass({
 
 clickHandler(event){
   this.props.onSelect(this.props.id);
@@ -22,3 +24,5 @@ return(
 
 }
 });
+
+export default ArtistTemplate;

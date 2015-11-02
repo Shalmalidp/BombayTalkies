@@ -7,7 +7,8 @@ import ArtistModel from '../resources';
 //    onImageSelect:
 // }
 
-export default React.createClass({
+//export default React.createClass
+let BollywoodTemplate = React.createClass({
 
 SelectHandler(id){
     this.prop.onImageSelect(id);
@@ -36,3 +37,5 @@ render() {
 }
 
 });
+
+export default BollywoodTemplate;
