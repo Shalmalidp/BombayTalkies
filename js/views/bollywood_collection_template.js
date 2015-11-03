@@ -14,6 +14,14 @@ SelectHandler(id){
     this.props.onImageSelect(id);
 },
 
+AddClickHandler(){
+  this.props.AddBtnClick();
+},
+EditClickHandler(){
+  this.props.editBtnClick();
+},
+
+
 // SpinClickHAndler(){
 //  this.props.OnSpinClick();
 // },
@@ -35,11 +43,12 @@ render() {
           <img className="header-image" src='http://www.daveandchad.com/wp-content/uploads/2015/07/bolly.jpg' />
         </div>
         <div className='buttons'>
-            <button className='add'>Add</button>
-            <button className='edit'>Edit</button>
+            <button onClick={this.AddClickHandler} className='add'>Add</button>
+            <button onClick={this.EditClickHandler} className='edit'>Edit</button>
         </div>
         <hr/>
         <div className='collection-display'>{this.props.data.map(this.displayAll)}</div>
+        
         <hr/>
     </div>
     );

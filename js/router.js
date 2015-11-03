@@ -7,8 +7,8 @@ import './ajax_setup';
 import ArtistTemplate       from './views/artist_model_template';
 import BollywoodTemplate    from './views/bollywood_collection_template';
 
-import {AddTemplate}        from './views';
-import {EditTemplate}       from './views';
+import AddTemplate          from './views/add_template';
+import EditTemplate         from './views/edit_template';
 import {Spinner}            from './views';
 
 
@@ -44,6 +44,8 @@ render(component){
 },
 
 
+// saveBtnClick{},
+
 goto(route){
 this.navigate(route, {trigger: true});
 },
@@ -54,10 +56,13 @@ home() {
       this.collection.fetch().then(() => {
        //console.log(collection);//fetch error
 //new way
-         this.render(<BollywoodTemplate 
-           id={this.collection.objectId}  
-           onImageSelect={(id)=>this.goto('Artist/'+ id)} 
-           data={this.collection.toJSON()}/>);
+         this.render(
+          <BollywoodTemplate 
+             id={this.collection.objectId}  
+            onImageSelect={(id)=>this.goto('Artist/'+ id)} 
+            data={this.collection.toJSON()}
+            editBtnClick={ () =>this.goto(`editForm`)}
+            addBtnClick={() =>this.goto(`addForm`)}/>);
       });
    //old way
     //this.el.html(BollywoodTemplate(this.collection.toJSON()) );
@@ -71,18 +76,27 @@ showArtist(id){
     let photo = this.collection.get(id);
 
     if (photo){
-      this.render(<ArtistTemplate data={photo.toJSON()}/>);
+      this.render(
+        <ArtistTemplate 
+        data={photo.toJSON()}
+        homeBtnClick={ () =>this.goto('')}
+        editBtnClick={ () =>this.goto(`editForm`)}/>);
     } 
     else {
       //console.log('adding this model');
       photo = this.collection.add(id);
       photo.fetch().then( () => {
-      this.render(<ArtistTemplate data={photo.toJSON()}/>);
+      this.render(<ArtistTemplate data={photo.toJSON()}
+      homeBtnClick={ () =>this.goto('')}
+      editBtnClick={ () =>this.goto(`editForm`)}/>);
       });
     }
 },
 
-showformAdd(){},
+showformAdd(){
+
+  
+},
 showformEdit(){}
 
 });

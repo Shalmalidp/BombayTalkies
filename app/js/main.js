@@ -171,6 +171,14 @@ var _viewsBollywood_collection_template = require('./views/bollywood_collection_
 
 var _viewsBollywood_collection_template2 = _interopRequireDefault(_viewsBollywood_collection_template);
 
+var _viewsAdd_template = require('./views/add_template');
+
+var _viewsAdd_template2 = _interopRequireDefault(_viewsAdd_template);
+
+var _viewsEdit_template = require('./views/edit_template');
+
+var _viewsEdit_template2 = _interopRequireDefault(_viewsEdit_template);
+
 var _views = require('./views');
 
 var _resourcesBollywood_collection = require('./resources/bollywood_collection');
@@ -208,6 +216,8 @@ var Router = _backbone2['default'].Router.extend({
     _reactDom2['default'].render(component, this.el);
   },
 
+  // saveBtnClick{},
+
   goto: function goto(route) {
     this.navigate(route, { trigger: true });
   },
@@ -225,7 +235,13 @@ var Router = _backbone2['default'].Router.extend({
         onImageSelect: function (id) {
           return _this.goto('Artist/' + id);
         },
-        data: _this.collection.toJSON() }));
+        data: _this.collection.toJSON(),
+        editBtnClick: function () {
+          return _this.goto('editForm');
+        },
+        addBtnClick: function () {
+          return _this.goto('addForm');
+        } }));
     });
     //old way
     //this.el.html(BollywoodTemplate(this.collection.toJSON()) );
@@ -239,12 +255,25 @@ var Router = _backbone2['default'].Router.extend({
     var photo = this.collection.get(id);
 
     if (photo) {
-      this.render(_react2['default'].createElement(_viewsArtist_model_template2['default'], { data: photo.toJSON() }));
+      this.render(_react2['default'].createElement(_viewsArtist_model_template2['default'], {
+        data: photo.toJSON(),
+        homeBtnClick: function () {
+          return _this2.goto('');
+        },
+        editBtnClick: function () {
+          return _this2.goto('editForm');
+        } }));
     } else {
       //console.log('adding this model');
       photo = this.collection.add(id);
       photo.fetch().then(function () {
-        _this2.render(_react2['default'].createElement(_viewsArtist_model_template2['default'], { data: photo.toJSON() }));
+        _this2.render(_react2['default'].createElement(_viewsArtist_model_template2['default'], { data: photo.toJSON(),
+          homeBtnClick: function () {
+            return _this2.goto('');
+          },
+          editBtnClick: function () {
+            return _this2.goto('editForm');
+          } }));
       });
     }
   },
@@ -257,10 +286,114 @@ var Router = _backbone2['default'].Router.extend({
 exports['default'] = Router;
 module.exports = exports['default'];
 
-},{"./ajax_setup":1,"./resources/artist_model":4,"./resources/bollywood_collection":5,"./views":12,"./views/artist_model_template":9,"./views/bollywood_collection_template":10,"backbone":14,"jquery":16,"react":173,"react-dom":17}],8:[function(require,module,exports){
-"use strict";
+},{"./ajax_setup":1,"./resources/artist_model":4,"./resources/bollywood_collection":5,"./views":12,"./views/add_template":8,"./views/artist_model_template":9,"./views/bollywood_collection_template":10,"./views/edit_template":11,"backbone":14,"jquery":16,"react":173,"react-dom":17}],8:[function(require,module,exports){
+'use strict';
 
-},{}],9:[function(require,module,exports){
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var AddTemplate = _react2['default'].createClass({
+    displayName: 'AddTemplate',
+
+    HomeClickHAndler: function HomeClickHAndler() {
+        this.props.homeBtnClick();
+    },
+    EditClickHandler: function EditClickHandler() {
+        this.props.editBtnClick();
+    },
+    SaveClickHandler: function SaveClickHandler() {
+        this.props.saveBtnClick();
+    },
+
+    render: function render() {
+        return _react2['default'].createElement(
+            'div',
+            { className: 'singleImage' },
+            _react2['default'].createElement(
+                'div',
+                { className: 'collection-header' },
+                _react2['default'].createElement(
+                    'h2',
+                    { className: 'header-text' },
+                    'Bombay Talkies...'
+                ),
+                _react2['default'].createElement('img', { className: 'header-image', src: 'http://www.daveandchad.com/wp-content/uploads/2015/07/bolly.jpg' })
+            ),
+            _react2['default'].createElement(
+                'div',
+                { className: 'buttons' },
+                _react2['default'].createElement(
+                    'button',
+                    { onClick: 'HomeClickHAndler', className: 'home' },
+                    'Home'
+                ),
+                _react2['default'].createElement(
+                    'button',
+                    { onClick: 'EditClickHandler', className: 'edit' },
+                    'Edit'
+                )
+            ),
+            _react2['default'].createElement('hr', null),
+            _react2['default'].createElement('img', { className: 'single', width: '300px', height: '300px', src: this.props.data.Picture }),
+            _react2['default'].createElement(
+                'div',
+                { className: 'details' },
+                _react2['default'].createElement(
+                    'form',
+                    { className: 'add-form' },
+                    _react2['default'].createElement(
+                        'label',
+                        null,
+                        'Name: ',
+                        _react2['default'].createElement('input', { type: 'text', placeholder: 'Enter Name', className: 'her-name' })
+                    ),
+                    _react2['default'].createElement(
+                        'label',
+                        null,
+                        'Picture URL : ',
+                        _react2['default'].createElement('input', { type: 'text', placeholder: 'Paste URL', className: 'photo' })
+                    ),
+                    _react2['default'].createElement(
+                        'label',
+                        null,
+                        'Number of years worked  :',
+                        _react2['default'].createElement('input', { type: 'text', placeholder: 'Enter No of years worked', className: 'joined' })
+                    ),
+                    _react2['default'].createElement(
+                        'label',
+                        null,
+                        'Age :',
+                        _react2['default'].createElement('input', { type: 'text', placeholder: 'Enter Age', className: 'age' })
+                    ),
+                    _react2['default'].createElement(
+                        'label',
+                        null,
+                        'About  :',
+                        _react2['default'].createElement('input', { type: 'text', placeholder: 'Description', className: 'about-her' })
+                    ),
+                    _react2['default'].createElement(
+                        'button',
+                        { onClick: 'SaveClickHandler', className: 'save' },
+                        'Save'
+                    )
+                )
+            ),
+            _react2['default'].createElement('hr', null)
+        );
+    }
+});
+
+exports['default'] = AddTemplate;
+module.exports = exports['default'];
+
+},{"react":173}],9:[function(require,module,exports){
 //this .prop{
 // src
 // id
@@ -288,6 +421,13 @@ var ArtistTemplate = _react2['default'].createClass({
     this.props.onSelect(this.props.id);
   },
 
+  HomeClickHandler: function HomeClickHandler() {
+    this.props.homeBtnClick();
+  },
+  EditClickHandler: function EditClickHandler() {
+    this.props.editBtnClick();
+  },
+
   render: function render() {
 
     return _react2['default'].createElement(
@@ -308,12 +448,12 @@ var ArtistTemplate = _react2['default'].createClass({
         { className: 'buttons' },
         _react2['default'].createElement(
           'button',
-          { className: 'home' },
+          { onClick: this.HomeClickHandler, className: 'home' },
           'Home'
         ),
         _react2['default'].createElement(
           'button',
-          { className: 'edit' },
+          { onClick: this.EditClickHandler, className: 'edit' },
           'Edit'
         )
       ),
@@ -392,6 +532,13 @@ var BollywoodTemplate = _react2['default'].createClass({
     this.props.onImageSelect(id);
   },
 
+  AddClickHandler: function AddClickHandler() {
+    this.props.AddBtnClick();
+  },
+  EditClickHandler: function EditClickHandler() {
+    this.props.editBtnClick();
+  },
+
   // SpinClickHAndler(){
   //  this.props.OnSpinClick();
   // },
@@ -428,12 +575,12 @@ var BollywoodTemplate = _react2['default'].createClass({
         { className: 'buttons' },
         _react2['default'].createElement(
           'button',
-          { className: 'add' },
+          { onClick: this.AddClickHandler, className: 'add' },
           'Add'
         ),
         _react2['default'].createElement(
           'button',
-          { className: 'edit' },
+          { onClick: this.EditClickHandler, className: 'edit' },
           'Edit'
         )
       ),
@@ -454,6 +601,17 @@ module.exports = exports['default'];
 
 },{"../resources":6,"react":173}],11:[function(require,module,exports){
 "use strict";
+
+// import React from 'react';
+// let EditTemplate = React.createClass({
+//   render() {
+//     return (
+
+//     );
+//   }
+// });
+
+// export default EditTemplate;
 
 },{}],12:[function(require,module,exports){
 'use strict';

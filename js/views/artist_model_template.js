@@ -14,6 +14,14 @@ clickHandler(event){
   this.props.onSelect(this.props.id);
 },
 
+HomeClickHandler(){
+	this.props.homeBtnClick();
+},
+EditClickHandler(){
+	this.props.editBtnClick();
+},
+
+
 render(){
 
 return(
@@ -23,8 +31,8 @@ return(
           <img className="header-image" src='http://www.daveandchad.com/wp-content/uploads/2015/07/bolly.jpg' />
         </div>
         <div className='buttons'>
-            <button className='home'>Home</button>
-            <button className='edit'>Edit</button>
+            <button onClick={this.HomeClickHandler} className='home'>Home</button>
+            <button onClick={this.EditClickHandler} className='edit'>Edit</button>
         </div>
         <hr/>
     
