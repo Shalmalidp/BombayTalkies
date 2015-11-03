@@ -2,7 +2,7 @@ import React from 'react';
 
 let AddTemplate = React.createClass({
 
-  HomeClickHAndler(){
+  HomeClickHandler(){
     this.props.homeBtnClick();
   },
   EditClickHandler(){
@@ -27,6 +27,7 @@ let AddTemplate = React.createClass({
         </div>
         <hr/>
         <div className='detailsAdd'>
+            <p>Add New Artist</p>
             <form className='add-form'>
                 <label id='l1'>Name: </label>
                 <input type='text' placeholder='Enter Name' className='her-name'/>

@@ -193,7 +193,7 @@ var Router = _backbone2['default'].Router.extend({
     "": "home", // redirect homescreen to bollywood pics
     "Artist/:id": "showArtist",
     "addForm": "showformAdd",
-    "editForm": "showformEdit"
+    "editForm/:id": "showformEdit"
   }, //end of routes
 
   initialize: function initialize(appElement) {
@@ -236,9 +236,6 @@ var Router = _backbone2['default'].Router.extend({
         data: _this.collection.toJSON(),
         AddBtnClick: function () {
           return _this.goto('addForm');
-        },
-        editBtnClick: function () {
-          return _this.goto('editForm');
         } }));
     });
     //old way
@@ -259,7 +256,7 @@ var Router = _backbone2['default'].Router.extend({
           return _this2.goto('');
         },
         editBtnClick: function () {
-          return _this2.goto('editForm');
+          return _this2.goto('editForm/' + id, { replace: true });
         } }));
     } else {
       //console.log('adding this model');
@@ -270,7 +267,7 @@ var Router = _backbone2['default'].Router.extend({
             return _this2.goto('');
           },
           editBtnClick: function () {
-            return _this2.goto('editForm');
+            return _this2.goto('editForm/' + id, { replace: true });
           } }));
       });
     }
@@ -282,11 +279,11 @@ var Router = _backbone2['default'].Router.extend({
     this.render(_react2['default'].createElement(_viewsAdd_template2['default'], {
       data: this.collection.toJSON(),
       editBtnClick: function () {
-        return _this3.goto('editForm');
+        return _this3.goto('editForm/' + id);
       },
-      homeBtnClick: (function () {
+      homeBtnClick: function () {
         return _this3.goto('');
-      }, { replace: true }),
+      },
       saveBtnClick: function () {
         // event.preventDefault();
         var newUserName = document.querySelector('.her-name').value;
@@ -314,7 +311,19 @@ var Router = _backbone2['default'].Router.extend({
       } }));
   },
 
-  showformEdit: function showformEdit() {}
+  showformEdit: function showformEdit(id) {
+    var _this4 = this;
+
+    var singleItem = this.collection.get(id);
+    this.render(_react2['default'].createElement(_viewsEdit_template2['default'], {
+      data: singleItem.toJSON(),
+      homeBtnClick: (function () {
+        return _this4.goto('');
+      }, { replace: true }),
+      AddBtnClick: function () {
+        return _this4.goto('addForm');
+      } }));
+  }
 
 });
 
@@ -337,7 +346,7 @@ var _react2 = _interopRequireDefault(_react);
 var AddTemplate = _react2['default'].createClass({
     displayName: 'AddTemplate',
 
-    HomeClickHAndler: function HomeClickHAndler() {
+    HomeClickHandler: function HomeClickHandler() {
         this.props.homeBtnClick();
     },
     EditClickHandler: function EditClickHandler() {
@@ -381,6 +390,11 @@ var AddTemplate = _react2['default'].createClass({
             _react2['default'].createElement(
                 'div',
                 { className: 'detailsAdd' },
+                _react2['default'].createElement(
+                    'p',
+                    null,
+                    'Add New Artist'
+                ),
                 _react2['default'].createElement(
                     'form',
                     { className: 'add-form' },
@@ -461,10 +475,13 @@ var ArtistTemplate = _react2['default'].createClass({
     this.props.homeBtnClick();
   },
   EditClickHandler: function EditClickHandler() {
+    console.log('click', this.props.editBtnClick);
     this.props.editBtnClick();
   },
 
   render: function render() {
+
+    console.log(this.props);
 
     return _react2['default'].createElement(
       'div',
@@ -486,11 +503,6 @@ var ArtistTemplate = _react2['default'].createClass({
           'button',
           { onClick: this.HomeClickHandler, className: 'home' },
           'Home'
-        ),
-        _react2['default'].createElement(
-          'button',
-          { onClick: this.EditClickHandler, className: 'edit' },
-          'Edit'
         )
       ),
       _react2['default'].createElement('hr', null),
@@ -527,6 +539,11 @@ var ArtistTemplate = _react2['default'].createClass({
           null,
           'About   :  ',
           this.props.data.About
+        ),
+        _react2['default'].createElement(
+          'button',
+          { onClick: this.EditClickHandler, className: 'edit' },
+          'Edit'
         )
       ),
       _react2['default'].createElement('hr', null)
@@ -571,9 +588,6 @@ var BollywoodTemplate = _react2['default'].createClass({
   AddClickHandler: function AddClickHandler() {
     this.props.AddBtnClick();
   },
-  EditClickHandler: function EditClickHandler() {
-    this.props.editBtnClick();
-  },
 
   // SpinClickHAndler(){
   //  this.props.OnSpinClick();
@@ -613,11 +627,6 @@ var BollywoodTemplate = _react2['default'].createClass({
           'button',
           { onClick: this.AddClickHandler, className: 'add' },
           'Add'
-        ),
-        _react2['default'].createElement(
-          'button',
-          { onClick: this.EditClickHandler, className: 'edit' },
-          'Edit'
         )
       ),
       _react2['default'].createElement('hr', null),
@@ -636,20 +645,162 @@ exports['default'] = BollywoodTemplate;
 module.exports = exports['default'];
 
 },{"../resources":6,"react":173}],11:[function(require,module,exports){
-"use strict";
+'use strict';
 
-// import React from 'react';
-// let EditTemplate = React.createClass({
-//   render() {
-//     return (
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
 
-//     );
-//   }
-// });
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-// export default EditTemplate;
+var _react = require('react');
 
-},{}],12:[function(require,module,exports){
+var _react2 = _interopRequireDefault(_react);
+
+var EditTemplate = _react2['default'].createClass({
+    displayName: 'EditTemplate',
+
+    getIntialState: function getIntialState() {
+        return {
+            herName: this.props.data.herName,
+            photo: this.props.data.photo,
+            joined: this.props.data.joined,
+            age: this.props.data.age,
+            about: this.props.data.about
+        };
+    },
+
+    HomeClickHandler: function HomeClickHandler() {
+        this.props.homeBtnClick();
+    },
+
+    AddClickHandler: function AddClickHandler() {
+        this.props.AddBtnClick();
+    },
+
+    SaveClickHandler: function SaveClickHandler(event) {
+        event.preventDefault();
+        console.log('this button was clicked');
+        this.props.saveBtnClick();
+    },
+
+    updateName: function updateName(event) {
+        var herName = event.target.value;
+        this.setState({
+            herName: herName
+        });
+    },
+    updatePhoto: function updatePhoto(event) {
+        var photo = event.target.value;
+        this.setState({
+            photo: photo
+        });
+    },
+    updateAge: function updateAge(event) {
+        var age = event.target.value;
+        this.setState({
+            age: age
+        });
+    },
+    updateJoined: function updateJoined(event) {
+        var joined = event.target.value;
+        this.setState({
+            joined: joined
+        });
+    },
+    updateAbout: function updateAbout(event) {
+        var About = event.target.value;
+        this.setState({
+            about: about
+        });
+    },
+
+    render: function render() {
+        return _react2['default'].createElement(
+            'div',
+            { className: 'singleImage' },
+            _react2['default'].createElement(
+                'div',
+                { className: 'collection-header' },
+                _react2['default'].createElement(
+                    'h2',
+                    { className: 'header-text' },
+                    'Bombay Talkies...'
+                ),
+                _react2['default'].createElement('img', { className: 'header-image', src: 'http://www.daveandchad.com/wp-content/uploads/2015/07/bolly.jpg' })
+            ),
+            _react2['default'].createElement(
+                'div',
+                { className: 'buttons' },
+                _react2['default'].createElement(
+                    'button',
+                    { onClick: this.HomeClickHandler, className: 'home' },
+                    'Home'
+                ),
+                _react2['default'].createElement(
+                    'button',
+                    { onClick: this.AddClickHandler, className: 'add' },
+                    'Add'
+                )
+            ),
+            _react2['default'].createElement('hr', null),
+            _react2['default'].createElement(
+                'div',
+                { className: 'detailsEdit' },
+                _react2['default'].createElement(
+                    'p',
+                    null,
+                    'EDIT DATA FORM'
+                ),
+                _react2['default'].createElement(
+                    'form',
+                    { className: 'edit-form' },
+                    _react2['default'].createElement(
+                        'label',
+                        { id: 'l1' },
+                        'Name: '
+                    ),
+                    _react2['default'].createElement('input', { type: 'text', value: this.state.herName, onChange: this.updateName, className: 'her-name' }),
+                    _react2['default'].createElement(
+                        'label',
+                        { id: 'l2' },
+                        'Picture URL :'
+                    ),
+                    _react2['default'].createElement('input', { type: 'text', value: this.state.photo, onChange: this.updatePhoto, className: 'photo' }),
+                    _react2['default'].createElement(
+                        'label',
+                        { id: 'l3' },
+                        'Number of years worked  :'
+                    ),
+                    _react2['default'].createElement('input', { type: 'text', value: this.state.joined, onChange: this.updateJoined, className: 'joined' }),
+                    _react2['default'].createElement(
+                        'label',
+                        { id: 'l4' },
+                        'Age :'
+                    ),
+                    _react2['default'].createElement('input', { type: 'text', value: this.state.age, onChange: this.updateAge, className: 'age' }),
+                    _react2['default'].createElement(
+                        'label',
+                        { id: 'l5' },
+                        'About  :'
+                    ),
+                    _react2['default'].createElement('input', { type: 'text', value: this.state.about, onChange: this.updateAbout, className: 'about-her' }),
+                    _react2['default'].createElement(
+                        'button',
+                        { onClick: this.SaveClickHandler, className: 'SAVE CHANGES' },
+                        'Save'
+                    )
+                )
+            ),
+            _react2['default'].createElement('hr', null)
+        );
+    }
+});
+
+exports['default'] = EditTemplate;
+module.exports = exports['default'];
+
+},{"react":173}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {

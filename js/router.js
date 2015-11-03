@@ -24,7 +24,7 @@ routes: {
   ""              : "home", // redirect homescreen to bollywood pics
   "Artist/:id"   : "showArtist",
   "addForm"       : "showformAdd", 
-  "editForm"      : "showformEdit"
+  "editForm/:id"      : "showformEdit"
 }, //end of routes
     
 initialize(appElement) {
@@ -63,8 +63,7 @@ home() {
              id={this.collection.objectId}  
             onImageSelect={(id)=>this.goto('Artist/'+ id)} 
             data={this.collection.toJSON()}
-            AddBtnClick={() =>this.goto(`addForm`)}
-            editBtnClick={ () =>this.goto(`editForm`)}/>);
+            AddBtnClick={() =>this.goto('addForm')}/>);
       });
    //old way
     //this.el.html(BollywoodTemplate(this.collection.toJSON()) );
@@ -82,7 +81,7 @@ showArtist(id){
         <ArtistTemplate 
         data={photo.toJSON()}
         homeBtnClick={ () =>this.goto('')}
-        editBtnClick={ () =>this.goto('editForm')}/>);
+        editBtnClick={ () =>this.goto('editForm/'+id ,{replace : true})}/>);
     } 
     else {
       //console.log('adding this model');
@@ -90,7 +89,7 @@ showArtist(id){
       photo.fetch().then( () => {
       this.render(<ArtistTemplate data={photo.toJSON()}
       homeBtnClick={ () =>this.goto('')}
-      editBtnClick={ () =>this.goto(`editForm`)}/>);
+      editBtnClick={ () =>this.goto('editForm/'+id,{replace:true})}/>);
       });
     }
 },
@@ -98,8 +97,8 @@ showArtist(id){
 showformAdd(){
 this.render(<AddTemplate 
   data={this.collection.toJSON()}
-  editBtnClick={() =>this.goto('editForm')}
-  homeBtnClick={() =>this.goto(''),{replace:true}}
+  editBtnClick={() =>this.goto('editForm/'+id)}
+  homeBtnClick={() =>this.goto('')}
   saveBtnClick={() =>{
     // event.preventDefault();
     let newUserName  = document.querySelector('.her-name').value;
@@ -129,7 +128,12 @@ this.render(<AddTemplate
 },
 
 
-showformEdit(){}
+showformEdit(id){
+  let singleItem = this.collection.get(id);
+  this.render(<EditTemplate
+    data ={singleItem.toJSON()}
+    homeBtnClick={() =>this.goto(''),{replace:true}}
+    AddBtnClick={() =>this.goto('addForm')}/>)}
 
 });
 

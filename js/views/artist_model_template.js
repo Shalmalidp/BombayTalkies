@@ -18,11 +18,14 @@ HomeClickHandler(){
 	this.props.homeBtnClick();
 },
 EditClickHandler(){
+  console.log('click', this.props.editBtnClick);
 	this.props.editBtnClick();
 },
 
 
 render(){
+
+  console.log(this.props);
 
 return(
   <div className='singleImage'>
@@ -32,7 +35,7 @@ return(
         </div>
         <div className='buttons'>
             <button onClick={this.HomeClickHandler} className='home'>Home</button>
-            <button onClick={this.EditClickHandler} className='edit'>Edit</button>
+            
         </div>
         <hr/>
     
@@ -42,7 +45,7 @@ return(
     		<p>Number of years worked  :  {this.props.data.Joined}</p>
     		<p>Age  :  {this.props.data.Age} years </p>
     		<p>About   :  {this.props.data.About}</p>
-  
+        <button onClick={this.EditClickHandler} className='edit'>Edit</button>
   		</div>
   		<hr/>
   </div>

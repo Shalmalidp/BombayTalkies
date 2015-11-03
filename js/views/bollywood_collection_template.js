@@ -17,10 +17,6 @@ SelectHandler(id){
 AddClickHandler(){
   this.props.AddBtnClick();
 },
-EditClickHandler(){
-  this.props.editBtnClick();
-},
-
 
 // SpinClickHAndler(){
 //  this.props.OnSpinClick();
@@ -44,7 +40,6 @@ render() {
         </div>
         <div className='buttons'>
             <button onClick={this.AddClickHandler} className='add'>Add</button>
-            <button onClick={this.EditClickHandler} className='edit'>Edit</button>
         </div>
         <hr/>
         <div className='collection-display'>{this.props.data.map(this.displayAll)}</div>
