@@ -287,15 +287,15 @@ var Router = _backbone2['default'].Router.extend({
       editBtnClick: function () {
         return _this3.goto('editForm');
       },
-      homeBtnClick: function () {
+      homeBtnClick: (function () {
         return _this3.goto('');
-      },
+      }, { replace: true }),
       saveBtnClick: function () {
-        var newUserName = document.querySelector('.her-name').val();
-        var newPhotoUrl = document.querySelector('.photo').val();
-        var newUserJoined = document.querySelector('.joined').val();
-        var newUserAge = document.querySelector('.age').val();
-        var newUserAbout = document.querySelector('.about-her').val();
+        var newUserName = document.querySelector('.her-name').value;
+        var newPhotoUrl = document.querySelector('.photo').value;
+        var newUserJoined = document.querySelector('.joined').value;
+        var newUserAge = document.querySelector('.age').value;
+        var newUserAbout = document.querySelector('.about-her').value;
 
         _this3.model = new _resourcesArtist_model2['default']({
           Name: newUserName,
@@ -363,55 +363,56 @@ var AddTemplate = _react2['default'].createClass({
                 { className: 'buttons' },
                 _react2['default'].createElement(
                     'button',
-                    { onClick: 'HomeClickHAndler', className: 'home' },
+                    { onClick: this.HomeClickHandler, className: 'home' },
                     'Home'
                 ),
                 _react2['default'].createElement(
                     'button',
-                    { onClick: 'EditClickHandler', className: 'edit' },
+                    { onClick: this.EditClickHandler, className: 'edit' },
                     'Edit'
                 )
             ),
             _react2['default'].createElement('hr', null),
             _react2['default'].createElement(
                 'div',
-                { className: 'details' },
+                { className: 'detailsAdd' },
                 _react2['default'].createElement(
                     'form',
                     { className: 'add-form' },
                     _react2['default'].createElement(
                         'label',
                         { id: 'l1' },
-                        'Name: ',
-                        _react2['default'].createElement('input', { type: 'text', placeholder: 'Enter Name', className: 'her-name' })
+                        'Name: '
                     ),
+                    _react2['default'].createElement('input', { type: 'text', placeholder: 'Enter Name', className: 'her-name' }),
                     _react2['default'].createElement(
                         'label',
                         { id: 'l2' },
-                        'Picture URL : ',
-                        _react2['default'].createElement('input', { type: 'text', placeholder: 'Paste URL', className: 'photo' })
+                        'Picture URL :'
                     ),
+                    ' ',
+                    _react2['default'].createElement('input', { type: 'text', placeholder: 'Paste URL', className: 'photo' }),
                     _react2['default'].createElement(
                         'label',
                         { id: 'l3' },
-                        'Number of years worked  :',
-                        _react2['default'].createElement('input', { type: 'text', placeholder: 'Enter No of years worked', className: 'joined' })
+                        'Number of years worked  :'
                     ),
+                    _react2['default'].createElement('input', { type: 'text', placeholder: 'Enter No of years worked', className: 'joined' }),
                     _react2['default'].createElement(
                         'label',
                         { id: 'l4' },
-                        'Age :',
-                        _react2['default'].createElement('input', { type: 'text', placeholder: 'Enter Age', className: 'age' })
+                        'Age :'
                     ),
+                    _react2['default'].createElement('input', { type: 'text', placeholder: 'Enter Age', className: 'age' }),
                     _react2['default'].createElement(
                         'label',
                         { id: 'l5' },
-                        'About  :',
-                        _react2['default'].createElement('input', { type: 'text', placeholder: 'Description', className: 'about-her' })
+                        'About  :'
                     ),
+                    _react2['default'].createElement('input', { type: 'text', placeholder: 'Description', className: 'about-her' }),
                     _react2['default'].createElement(
                         'button',
-                        { onClick: 'SaveClickHandler', className: 'save' },
+                        { onClick: this.SaveClickHandler, className: 'save' },
                         'Save'
                     )
                 )

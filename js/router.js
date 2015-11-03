@@ -98,13 +98,13 @@ showformAdd(){
 this.render(<AddTemplate 
   data={this.collection.toJSON()}
   editBtnClick={() =>this.goto(`editForm`)}
-  homeBtnClick={() =>this.goto('')}
+  homeBtnClick={() =>this.goto(''),{replace:true}}
   saveBtnClick={() =>{
-    let newUserName  = document.querySelector('.her-name').val();
-    let newPhotoUrl  = document.querySelector('.photo').val();
-    let newUserJoined= document.querySelector('.joined').val();
-    let newUserAge   = document.querySelector('.age').val();
-    let newUserAbout = document.querySelector('.about-her').val();
+    let newUserName  = document.querySelector('.her-name').value;
+    let newPhotoUrl  = document.querySelector('.photo').value;
+    let newUserJoined= document.querySelector('.joined').value;
+    let newUserAge   = document.querySelector('.age').value;
+    let newUserAbout = document.querySelector('.about-her').value;
     
     this.model = new ArtistModel({
       Name   : newUserName,
