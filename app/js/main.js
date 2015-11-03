@@ -145,10 +145,6 @@ Object.defineProperty(exports, '__esModule', {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _jquery = require('jquery');
-
-var _jquery2 = _interopRequireDefault(_jquery);
-
 var _backbone = require('backbone');
 
 var _backbone2 = _interopRequireDefault(_backbone);
@@ -231,8 +227,9 @@ var Router = _backbone2['default'].Router.extend({
     this.collection.fetch().then(function () {
       //console.log(collection);//fetch error
       //new way
-      _this.render(_react2['default'].createElement(_viewsBollywood_collection_template2['default'], {
-        id: _this.collection.objectId,
+      _this.render(_react2['default'].createElement(_viewsBollywood_collection_template2['default'],
+      //          grabbing the objectId into a variable
+      { id: _this.collection.objectId,
         onImageSelect: function (id) {
           return _this.goto('Artist/' + id);
         },
@@ -291,22 +288,28 @@ var Router = _backbone2['default'].Router.extend({
         return _this3.goto('');
       }, { replace: true }),
       saveBtnClick: function () {
+        // event.preventDefault();
         var newUserName = document.querySelector('.her-name').value;
         var newPhotoUrl = document.querySelector('.photo').value;
         var newUserJoined = document.querySelector('.joined').value;
         var newUserAge = document.querySelector('.age').value;
         var newUserAbout = document.querySelector('.about-her').value;
+        console.log('new user', newUserName);
 
-        _this3.model = new _resourcesArtist_model2['default']({
+        var model = new _resourcesArtist_model2['default']({
           Name: newUserName,
           Picture: newPhotoUrl,
           Joined: newUserJoined,
-          Age: newUserAge,
+          Age: Number(newUserAge),
           About: newUserAbout
+
         });
+        console.log('is the model new ?', model);
+        console.log('clicked');
+
         model.save().then(function () {
           alert('RECORD SUCCESSFULLY ADDED');
-          _this3.goto('');
+          _this3.goto("");
         });
       } }));
   },
@@ -318,7 +321,7 @@ var Router = _backbone2['default'].Router.extend({
 exports['default'] = Router;
 module.exports = exports['default'];
 
-},{"./ajax_setup":1,"./resources/artist_model":4,"./resources/bollywood_collection":5,"./views":12,"./views/add_template":8,"./views/artist_model_template":9,"./views/bollywood_collection_template":10,"./views/edit_template":11,"backbone":14,"jquery":16,"react":173,"react-dom":17}],8:[function(require,module,exports){
+},{"./ajax_setup":1,"./resources/artist_model":4,"./resources/bollywood_collection":5,"./views":12,"./views/add_template":8,"./views/artist_model_template":9,"./views/bollywood_collection_template":10,"./views/edit_template":11,"backbone":14,"react":173,"react-dom":17}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -340,7 +343,9 @@ var AddTemplate = _react2['default'].createClass({
     EditClickHandler: function EditClickHandler() {
         this.props.editBtnClick();
     },
-    SaveClickHandler: function SaveClickHandler() {
+    SaveClickHandler: function SaveClickHandler(event) {
+        event.preventDefault();
+        console.log('this button was clicked');
         this.props.saveBtnClick();
     },
 
@@ -390,7 +395,6 @@ var AddTemplate = _react2['default'].createClass({
                         { id: 'l2' },
                         'Picture URL :'
                     ),
-                    ' ',
                     _react2['default'].createElement('input', { type: 'text', placeholder: 'Paste URL', className: 'photo' }),
                     _react2['default'].createElement(
                         'label',

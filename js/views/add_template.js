@@ -2,15 +2,17 @@ import React from 'react';
 
 let AddTemplate = React.createClass({
 
-HomeClickHAndler(){
-  this.props.homeBtnClick();
-},
-EditClickHandler(){
-  this.props.editBtnClick();
-},
-SaveClickHandler(){
-  this.props.saveBtnClick();
-},
+  HomeClickHAndler(){
+    this.props.homeBtnClick();
+  },
+  EditClickHandler(){
+    this.props.editBtnClick();
+  },
+  SaveClickHandler(event){
+    event.preventDefault();
+    console.log('this button was clicked');
+    this.props.saveBtnClick();
+  },
 
   render() {
     return (
@@ -26,11 +28,16 @@ SaveClickHandler(){
         <hr/>
         <div className='detailsAdd'>
             <form className='add-form'>
-                <label id='l1'>Name: </label><input type='text' placeholder='Enter Name' className='her-name'/>
-                <label id='l2'>Picture URL :</label> <input type='text' placeholder='Paste URL' className='photo'/>
-                <label id='l3'>Number of years worked  :</label><input type='text' placeholder='Enter No of years worked' className='joined'/>
-                <label id='l4'>Age :</label><input type='text' placeholder='Enter Age' className='age'/>
-                <label id='l5'>About  :</label><input type='text' placeholder='Description' className='about-her'/>
+                <label id='l1'>Name: </label>
+                <input type='text' placeholder='Enter Name' className='her-name'/>
+                <label id='l2'>Picture URL :</label> 
+                <input type='text' placeholder='Paste URL' className='photo'/>
+                <label id='l3'>Number of years worked  :</label>
+                <input type='text' placeholder='Enter No of years worked' className='joined'/>
+                <label id='l4'>Age :</label>
+                <input type='text' placeholder='Enter Age' className='age'/>
+                <label id='l5'>About  :</label>
+                <input type='text' placeholder='Description' className='about-her'/>
                 <button onClick ={this.SaveClickHandler} className='save'>Save</button>             
             </form>
         </div>

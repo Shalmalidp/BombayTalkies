@@ -1,4 +1,4 @@
-import $ from 'jquery';
+
 import Backbone from 'backbone';
 import React from 'react';
 import ReactDom from 'react-dom';
@@ -59,6 +59,7 @@ home() {
 //new way
          this.render(
           <BollywoodTemplate 
+//          grabbing the objectId into a variable
              id={this.collection.objectId}  
             onImageSelect={(id)=>this.goto('Artist/'+ id)} 
             data={this.collection.toJSON()}
@@ -81,7 +82,7 @@ showArtist(id){
         <ArtistTemplate 
         data={photo.toJSON()}
         homeBtnClick={ () =>this.goto('')}
-        editBtnClick={ () =>this.goto(`editForm`)}/>);
+        editBtnClick={ () =>this.goto('editForm')}/>);
     } 
     else {
       //console.log('adding this model');
@@ -97,25 +98,31 @@ showArtist(id){
 showformAdd(){
 this.render(<AddTemplate 
   data={this.collection.toJSON()}
-  editBtnClick={() =>this.goto(`editForm`)}
+  editBtnClick={() =>this.goto('editForm')}
   homeBtnClick={() =>this.goto(''),{replace:true}}
   saveBtnClick={() =>{
+    // event.preventDefault();
     let newUserName  = document.querySelector('.her-name').value;
     let newPhotoUrl  = document.querySelector('.photo').value;
     let newUserJoined= document.querySelector('.joined').value;
     let newUserAge   = document.querySelector('.age').value;
     let newUserAbout = document.querySelector('.about-her').value;
-    
-    this.model = new ArtistModel({
+    console.log('new user',newUserName);
+
+    let model = new ArtistModel({
       Name   : newUserName,
       Picture: newPhotoUrl,
       Joined : newUserJoined,
-      Age    : newUserAge,
+      Age    : Number(newUserAge),
       About  : newUserAbout
+
     });
-      model.save().then(()=>{
+    console.log('is the model new ?', model);
+      console.log('clicked');
+
+      model.save().then(() => {
         alert('RECORD SUCCESSFULLY ADDED');
-        this.goto(''); 
+        this.goto(""); 
       });
   }
 }/>);
