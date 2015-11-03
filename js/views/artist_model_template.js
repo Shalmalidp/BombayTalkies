@@ -39,9 +39,10 @@ return(
     	<img className='single' width='300px' height='300px' src={this.props.data.Picture}/>
     	<div className='details'>
     		<p>Name <i className="fa fa-heart"> </i>{this.props.data.Name}</p>
-    		<p>Number of years worked  : {this.props.data.Joined}</p>
-    		<p>Age : {this.props.data.Age} years </p>
-    		<p>About  : {this.props.data.About}</p>
+    		<p>Number of years worked  :  {this.props.data.Joined}</p>
+    		<p>Age  :  {this.props.data.Age} years </p>
+    		<p>About   :  {this.props.data.About}</p>
+  
   		</div>
   		<hr/>
   </div>

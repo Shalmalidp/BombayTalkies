@@ -29,7 +29,7 @@ EditClickHandler(){
 displayAll(data){
 return(
   <div className='thumbnails' key = {data.objectId}>
-    <img className='collection-display' src={data.Picture} width='280px' height='280px' id={data.objectId} onClick={() => this.SelectHandler(data.objectId)}/>
+    <img className='collection-display' src={data.Picture} width='200px' height='200px' id={data.objectId} onClick={() => this.SelectHandler(data.objectId)}/>
   </div>
   );
 },

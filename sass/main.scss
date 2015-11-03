@@ -24,6 +24,7 @@ body {
     }
     .buttons{
     	//text-align:center;
+        display:inline-block;
     	margin:0;
     	padding:0;
     }
@@ -78,6 +79,18 @@ body {
     .details{
     	display:inline-block;
     	width:40%;
-    	 margin-left :5%;
+    	margin-left :5%;
     	vertical-align:top;
     }
+    
+
+//Add form template SCSS
+
+.add-form{
+    display:inline-block;
+    width:100%;
+}
+#l1,#l2,#l3,#l4,#l5{
+    width :55%;
+    line-height:25px;
+}

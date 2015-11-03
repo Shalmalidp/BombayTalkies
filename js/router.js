@@ -30,6 +30,7 @@ routes: {
 initialize(appElement) {
   this.el = appElement;
   this.collection = new BollywoodCollection();
+  this.model = new ArtistModel();
 
   // this.goto('redirecttoBollywoodCollection', {trigger:true, replace :true } );
 },
@@ -61,8 +62,8 @@ home() {
              id={this.collection.objectId}  
             onImageSelect={(id)=>this.goto('Artist/'+ id)} 
             data={this.collection.toJSON()}
-            editBtnClick={ () =>this.goto(`editForm`)}
-            addBtnClick={() =>this.goto(`addForm`)}/>);
+            AddBtnClick={() =>this.goto(`addForm`)}
+            editBtnClick={ () =>this.goto(`editForm`)}/>);
       });
    //old way
     //this.el.html(BollywoodTemplate(this.collection.toJSON()) );
@@ -94,9 +95,33 @@ showArtist(id){
 },
 
 showformAdd(){
-
-  
+this.render(<AddTemplate 
+  data={this.collection.toJSON()}
+  editBtnClick={() =>this.goto(`editForm`)}
+  homeBtnClick={() =>this.goto('')}
+  saveBtnClick={() =>{
+    let newUserName  = document.querySelector('.her-name').val();
+    let newPhotoUrl  = document.querySelector('.photo').val();
+    let newUserJoined= document.querySelector('.joined').val();
+    let newUserAge   = document.querySelector('.age').val();
+    let newUserAbout = document.querySelector('.about-her').val();
+    
+    this.model = new ArtistModel({
+      Name   : newUserName,
+      Picture: newPhotoUrl,
+      Joined : newUserJoined,
+      Age    : newUserAge,
+      About  : newUserAbout
+    });
+      model.save().then(()=>{
+        alert('RECORD SUCCESSFULLY ADDED');
+        this.goto(''); 
+      });
+  }
+}/>);
 },
+
+
 showformEdit(){}
 
 });

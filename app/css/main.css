@@ -2041,6 +2041,7 @@ img.header-image {
   vertical-align: top; }
 
 .buttons {
+  display: inline-block;
   margin: 0;
   padding: 0; }
 
@@ -2089,5 +2090,13 @@ img.header-image {
   width: 40%;
   margin-left: 5%;
   vertical-align: top; }
+
+.add-form {
+  display: inline-block;
+  width: 100%; }
+
+#l1, #l2, #l3, #l4, #l5 {
+  width: 55%;
+  line-height: 25px; }
 
 /*# sourceMappingURL=main.css.map */

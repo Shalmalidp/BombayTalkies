@@ -24,16 +24,14 @@ SaveClickHandler(){
             <button onClick='EditClickHandler' className='edit'>Edit</button>
         </div>
         <hr/>
-    
-        <img className='single' width='300px' height='300px' src={this.props.data.Picture}/>
         <div className='details'>
             <form className='add-form'>
-                <label>Name: <input type='text' placeholder='Enter Name' className='her-name'/></label>
-                <label>Picture URL : <input type='text' placeholder='Paste URL' className='photo'/></label>
-                <label>Number of years worked  :<input type='text' placeholder='Enter No of years worked' className='joined'/></label>
-                <label>Age :<input type='text' placeholder='Enter Age' className='age'/></label>
-                <label>About  :<input type='text' placeholder='Description' className='about-her'/></label>
-                <button onClick = 'SaveClickHandler' className='save'>Save</button>             
+                <label id='l1'>Name: <input type='text' placeholder='Enter Name' className='her-name'/></label>
+                <label id='l2'>Picture URL : <input type='text' placeholder='Paste URL' className='photo'/></label>
+                <label id='l3'>Number of years worked  :<input type='text' placeholder='Enter No of years worked' className='joined'/></label>
+                <label id='l4'>Age :<input type='text' placeholder='Enter Age' className='age'/></label>
+                <label id='l5'>About  :<input type='text' placeholder='Description' className='about-her'/></label>
+                <button onClick ='SaveClickHandler' className='save'>Save</button>             
             </form>
         </div>
         <hr/>

@@ -203,6 +203,7 @@ var Router = _backbone2['default'].Router.extend({
   initialize: function initialize(appElement) {
     this.el = appElement;
     this.collection = new _resourcesBollywood_collection2['default']();
+    this.model = new _resourcesArtist_model2['default']();
 
     // this.goto('redirecttoBollywoodCollection', {trigger:true, replace :true } );
   },
@@ -236,11 +237,11 @@ var Router = _backbone2['default'].Router.extend({
           return _this.goto('Artist/' + id);
         },
         data: _this.collection.toJSON(),
+        AddBtnClick: function () {
+          return _this.goto('addForm');
+        },
         editBtnClick: function () {
           return _this.goto('editForm');
-        },
-        addBtnClick: function () {
-          return _this.goto('addForm');
         } }));
     });
     //old way
@@ -278,7 +279,38 @@ var Router = _backbone2['default'].Router.extend({
     }
   },
 
-  showformAdd: function showformAdd() {},
+  showformAdd: function showformAdd() {
+    var _this3 = this;
+
+    this.render(_react2['default'].createElement(_viewsAdd_template2['default'], {
+      data: this.collection.toJSON(),
+      editBtnClick: function () {
+        return _this3.goto('editForm');
+      },
+      homeBtnClick: function () {
+        return _this3.goto('');
+      },
+      saveBtnClick: function () {
+        var newUserName = document.querySelector('.her-name').val();
+        var newPhotoUrl = document.querySelector('.photo').val();
+        var newUserJoined = document.querySelector('.joined').val();
+        var newUserAge = document.querySelector('.age').val();
+        var newUserAbout = document.querySelector('.about-her').val();
+
+        _this3.model = new _resourcesArtist_model2['default']({
+          Name: newUserName,
+          Picture: newPhotoUrl,
+          Joined: newUserJoined,
+          Age: newUserAge,
+          About: newUserAbout
+        });
+        model.save().then(function () {
+          alert('RECORD SUCCESSFULLY ADDED');
+          _this3.goto('');
+        });
+      } }));
+  },
+
   showformEdit: function showformEdit() {}
 
 });
@@ -341,7 +373,6 @@ var AddTemplate = _react2['default'].createClass({
                 )
             ),
             _react2['default'].createElement('hr', null),
-            _react2['default'].createElement('img', { className: 'single', width: '300px', height: '300px', src: this.props.data.Picture }),
             _react2['default'].createElement(
                 'div',
                 { className: 'details' },
@@ -350,31 +381,31 @@ var AddTemplate = _react2['default'].createClass({
                     { className: 'add-form' },
                     _react2['default'].createElement(
                         'label',
-                        null,
+                        { id: 'l1' },
                         'Name: ',
                         _react2['default'].createElement('input', { type: 'text', placeholder: 'Enter Name', className: 'her-name' })
                     ),
                     _react2['default'].createElement(
                         'label',
-                        null,
+                        { id: 'l2' },
                         'Picture URL : ',
                         _react2['default'].createElement('input', { type: 'text', placeholder: 'Paste URL', className: 'photo' })
                     ),
                     _react2['default'].createElement(
                         'label',
-                        null,
+                        { id: 'l3' },
                         'Number of years worked  :',
                         _react2['default'].createElement('input', { type: 'text', placeholder: 'Enter No of years worked', className: 'joined' })
                     ),
                     _react2['default'].createElement(
                         'label',
-                        null,
+                        { id: 'l4' },
                         'Age :',
                         _react2['default'].createElement('input', { type: 'text', placeholder: 'Enter Age', className: 'age' })
                     ),
                     _react2['default'].createElement(
                         'label',
-                        null,
+                        { id: 'l5' },
                         'About  :',
                         _react2['default'].createElement('input', { type: 'text', placeholder: 'Description', className: 'about-her' })
                     ),
@@ -476,20 +507,20 @@ var ArtistTemplate = _react2['default'].createClass({
         _react2['default'].createElement(
           'p',
           null,
-          'Number of years worked  : ',
+          'Number of years worked  :  ',
           this.props.data.Joined
         ),
         _react2['default'].createElement(
           'p',
           null,
-          'Age : ',
+          'Age  :  ',
           this.props.data.Age,
           ' years '
         ),
         _react2['default'].createElement(
           'p',
           null,
-          'About  : ',
+          'About   :  ',
           this.props.data.About
         )
       ),
@@ -549,7 +580,7 @@ var BollywoodTemplate = _react2['default'].createClass({
     return _react2['default'].createElement(
       'div',
       { className: 'thumbnails', key: data.objectId },
-      _react2['default'].createElement('img', { className: 'collection-display', src: data.Picture, width: '280px', height: '280px', id: data.objectId, onClick: function () {
+      _react2['default'].createElement('img', { className: 'collection-display', src: data.Picture, width: '200px', height: '200px', id: data.objectId, onClick: function () {
           return _this.SelectHandler(data.objectId);
         } })
     );
