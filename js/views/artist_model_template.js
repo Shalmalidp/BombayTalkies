@@ -17,9 +17,9 @@ clickHandler(event){
 HomeClickHandler(){
 	this.props.homeBtnClick();
 },
-EditClickHandler(){
+EditClickHandler(id){
   console.log('click', this.props.editBtnClick);
-	this.props.editBtnClick();
+	this.props.editBtnClick(id);
 },
 
 
@@ -41,11 +41,11 @@ return(
     
     	<img className='single' width='300px' height='300px' src={this.props.data.Picture}/>
     	<div className='details'>
-    		<p>Name <i className="fa fa-heart"> </i>{this.props.data.Name}</p>
+    		<p>Name <i className="fa fa-heart"> </i>{this.props.data.Fname}</p>
     		<p>Number of years worked  :  {this.props.data.Joined}</p>
     		<p>Age  :  {this.props.data.Age} years </p>
     		<p>About   :  {this.props.data.About}</p>
-        <button onClick={this.EditClickHandler} className='edit'>Edit</button>
+        <button onClick={() => this.EditClickHandler(this.props.data.objectId)} className='edit'>Edit</button>
   		</div>
   		<hr/>
   </div>

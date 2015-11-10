@@ -159,6 +159,10 @@ var _reactDom2 = _interopRequireDefault(_reactDom);
 
 require('./ajax_setup');
 
+var _jquery = require('jquery');
+
+var _jquery2 = _interopRequireDefault(_jquery);
+
 var _viewsArtist_model_template = require('./views/artist_model_template');
 
 var _viewsArtist_model_template2 = _interopRequireDefault(_viewsArtist_model_template);
@@ -225,7 +229,6 @@ var Router = _backbone2['default'].Router.extend({
 
     //fetching data from the collection instance to act on it
     this.collection.fetch().then(function () {
-      //console.log(collection);//fetch error
       //new way
       _this.render(_react2['default'].createElement(_viewsBollywood_collection_template2['default'],
       //          grabbing the objectId into a variable
@@ -252,37 +255,86 @@ var Router = _backbone2['default'].Router.extend({
     if (photo) {
       this.render(_react2['default'].createElement(_viewsArtist_model_template2['default'], {
         data: photo.toJSON(),
+        editBtnClick: function (id) {
+          return _this2.goto('editForm/' + id);
+        },
         homeBtnClick: function () {
           return _this2.goto('');
-        },
-        editBtnClick: function () {
-          return _this2.goto('editForm/' + id, { replace: true });
         } }));
     } else {
       //console.log('adding this model');
-      photo = this.collection.add(id);
+      photo = this.collection.add({ objectId: id });
       photo.fetch().then(function () {
-        _this2.render(_react2['default'].createElement(_viewsArtist_model_template2['default'], { data: photo.toJSON(),
+        _this2.render(_react2['default'].createElement(_viewsArtist_model_template2['default'], {
+          data: photo.toJSON(),
+          editBtnClick: function (id) {
+            return _this2.goto('editForm/' + id);
+          },
           homeBtnClick: function () {
             return _this2.goto('');
-          },
-          editBtnClick: function () {
-            return _this2.goto('editForm/' + id, { replace: true });
           } }));
       });
     }
   },
 
-  showformAdd: function showformAdd() {
+  // EDITING EXISTING DATA
+  showformEdit: function showformEdit(id) {
     var _this3 = this;
+
+    var getinfo = this.collection.get(id);
+    if (getinfo) {
+      console.log('A', getinfo.toJSON());
+      this.render(_react2['default'].createElement(_viewsEdit_template2['default'], {
+        homeBtnClick: function () {
+          return _this3.goto('');
+        },
+        data: getinfo.toJSON(),
+        saveBtnClick: function (Fname, Picture, Joined, Age, About) {
+          return _this3.saveEditedData(id, Fname, Picture, Joined, Age, About);
+        } }));
+    } else {
+      getinfo = this.collection.add({ objectId: id });
+      getinfo.fetch().then(function () {
+        console.log('B', getinfo.toJSON());
+        _this3.render(_react2['default'].createElement(_viewsEdit_template2['default'], {
+          data: getinfo.toJSON(),
+          saveBtnClick: function (id, Fname, Picture, Joined, Age, About) {
+            return _this3.saveEditedData(Fname, Picture, Joined, Age, About);
+          } }));
+        console.log('BB');
+      });
+    }
+    console.log('logging toJSON', getinfo.toJSON());
+  },
+
+  //SAVING EDITED DATA....
+  saveEditedData: function saveEditedData(id, Fname, Picture, Joined, Age, About) {
+    var _this4 = this;
+
+    this.collection.get(id).save({
+      objectId: id,
+      Fname: Fname,
+      Picture: Picture,
+      Joined: Joined,
+      Age: Age,
+      About: About
+    }).then(function () {
+      alert('UPDATED CHANGES.');
+      _this4.goto('');
+    });
+  },
+
+  //ADD NEW ACTORS
+  showformAdd: function showformAdd() {
+    var _this5 = this;
 
     this.render(_react2['default'].createElement(_viewsAdd_template2['default'], {
       data: this.collection.toJSON(),
       editBtnClick: function () {
-        return _this3.goto('editForm/' + id);
+        return _this5.goto('editForm/' + id);
       },
       homeBtnClick: function () {
-        return _this3.goto('');
+        return _this5.goto('');
       },
       saveBtnClick: function () {
         // event.preventDefault();
@@ -294,7 +346,7 @@ var Router = _backbone2['default'].Router.extend({
         console.log('new user', newUserName);
 
         var model = new _resourcesArtist_model2['default']({
-          Name: newUserName,
+          Fname: newUserName,
           Picture: newPhotoUrl,
           Joined: newUserJoined,
           Age: Number(newUserAge),
@@ -306,31 +358,16 @@ var Router = _backbone2['default'].Router.extend({
 
         model.save().then(function () {
           alert('RECORD SUCCESSFULLY ADDED');
-          _this3.goto("");
+          _this5.goto("");
         });
-      } }));
-  },
-
-  showformEdit: function showformEdit(id) {
-    var _this4 = this;
-
-    var singleItem = this.collection.get(id);
-    this.render(_react2['default'].createElement(_viewsEdit_template2['default'], {
-      data: singleItem.toJSON(),
-      homeBtnClick: (function () {
-        return _this4.goto('');
-      }, { replace: true }),
-      AddBtnClick: function () {
-        return _this4.goto('addForm');
       } }));
   }
 
 });
-
 exports['default'] = Router;
 module.exports = exports['default'];
 
-},{"./ajax_setup":1,"./resources/artist_model":4,"./resources/bollywood_collection":5,"./views":12,"./views/add_template":8,"./views/artist_model_template":9,"./views/bollywood_collection_template":10,"./views/edit_template":11,"backbone":14,"react":173,"react-dom":17}],8:[function(require,module,exports){
+},{"./ajax_setup":1,"./resources/artist_model":4,"./resources/bollywood_collection":5,"./views":12,"./views/add_template":8,"./views/artist_model_template":9,"./views/bollywood_collection_template":10,"./views/edit_template":11,"backbone":14,"jquery":16,"react":173,"react-dom":17}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -474,12 +511,13 @@ var ArtistTemplate = _react2['default'].createClass({
   HomeClickHandler: function HomeClickHandler() {
     this.props.homeBtnClick();
   },
-  EditClickHandler: function EditClickHandler() {
+  EditClickHandler: function EditClickHandler(id) {
     console.log('click', this.props.editBtnClick);
-    this.props.editBtnClick();
+    this.props.editBtnClick(id);
   },
 
   render: function render() {
+    var _this = this;
 
     console.log(this.props);
 
@@ -519,7 +557,7 @@ var ArtistTemplate = _react2['default'].createClass({
             { className: 'fa fa-heart' },
             ' '
           ),
-          this.props.data.Name
+          this.props.data.Fname
         ),
         _react2['default'].createElement(
           'p',
@@ -542,7 +580,9 @@ var ArtistTemplate = _react2['default'].createClass({
         ),
         _react2['default'].createElement(
           'button',
-          { onClick: this.EditClickHandler, className: 'edit' },
+          { onClick: function () {
+              return _this.EditClickHandler(_this.props.data.objectId);
+            }, className: 'edit' },
           'Edit'
         )
       ),
@@ -599,7 +639,10 @@ var BollywoodTemplate = _react2['default'].createClass({
     return _react2['default'].createElement(
       'div',
       { className: 'thumbnails', key: data.objectId },
-      _react2['default'].createElement('img', { className: 'collection-display', src: data.Picture, width: '200px', height: '200px', id: data.objectId, onClick: function () {
+      _react2['default'].createElement('img', { className: 'collection-display',
+        src: data.Picture, width: '200px', height: '200px',
+        id: data.objectId,
+        onClick: function () {
           return _this.SelectHandler(data.objectId);
         } })
     );
@@ -648,7 +691,7 @@ module.exports = exports['default'];
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
-    value: true
+  value: true
 });
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -658,143 +701,214 @@ var _react = require('react');
 var _react2 = _interopRequireDefault(_react);
 
 var EditTemplate = _react2['default'].createClass({
-    displayName: 'EditTemplate',
+  displayName: 'EditTemplate',
 
-    getIntialState: function getIntialState() {
-        return {
-            herName: this.props.data.herName,
-            photo: this.props.data.photo,
-            joined: this.props.data.joined,
-            age: this.props.data.age,
-            about: this.props.data.about
-        };
-    },
+  getInitialState: function getInitialState() {
+    console.log('yy');
+    console.log('zz', this.props.data);
+    return {
+      objectId: this.props.data.objectId,
+      Fname: this.props.data.Fname,
+      Picture: this.props.data.Picture,
+      Joined: this.props.data.Joined,
+      Age: this.props.data.Age,
+      About: this.props.data.About
+    };
+  },
 
-    HomeClickHandler: function HomeClickHandler() {
-        this.props.homeBtnClick();
-    },
+  setId: function setId(event) {
+    var newId = event.currentTarget.value;
+    this.setState({ objectId: newId });
+  },
 
-    AddClickHandler: function AddClickHandler() {
-        this.props.AddBtnClick();
-    },
+  HomeClickHandler: function HomeClickHandler() {
+    this.props.homeBtnClick();
+  },
 
-    SaveClickHandler: function SaveClickHandler(event) {
-        event.preventDefault();
-        console.log('this button was clicked');
-        this.props.saveBtnClick();
-    },
+  AddClickHandler: function AddClickHandler() {
+    this.props.AddBtnClick();
+  },
 
-    updateName: function updateName(event) {
-        var herName = event.target.value;
-        this.setState({
-            herName: herName
-        });
-    },
-    updatePhoto: function updatePhoto(event) {
-        var photo = event.target.value;
-        this.setState({
-            photo: photo
-        });
-    },
-    updateAge: function updateAge(event) {
-        var age = event.target.value;
-        this.setState({
-            age: age
-        });
-    },
-    updateJoined: function updateJoined(event) {
-        var joined = event.target.value;
-        this.setState({
-            joined: joined
-        });
-    },
-    updateAbout: function updateAbout(event) {
-        var About = event.target.value;
-        this.setState({
-            about: about
-        });
-    },
+  SaveClickHandler: function SaveClickHandler(event) {
+    event.preventDefault();
+    console.log('this button was clicked');
+    this.props.saveBtnClick(this.state.objectId, this.state.Fname, this.state.Picture, this.state.Joined, this.state.Age, this.state.About);
+    console.log(this.state.Fname);
+  },
 
-    render: function render() {
-        return _react2['default'].createElement(
-            'div',
-            { className: 'singleImage' },
+  updateName: function updateName(event) {
+    var herName = event.target.value;
+    this.setState({
+      Fname: herName
+    });
+  },
+  updatePhoto: function updatePhoto(event) {
+    var photo = event.target.value;
+    this.setState({
+      Picture: photo
+    });
+  },
+  updateAge: function updateAge(event) {
+    var age = event.target.value;
+    this.setState({
+      Age: age
+    });
+  },
+  updateJoined: function updateJoined(event) {
+    var joined = event.target.value;
+    this.setState({
+      Joined: joined
+    });
+  },
+  updateAbout: function updateAbout(event) {
+    var about = event.target.value;
+    this.setState({
+      About: about
+    });
+  },
+  //MOVED FROM THE RENDER <button onClick={this.AddClickHandler} className='add'>Add</button>
+
+  render: function render() {
+    console.log('qqq');
+    return _react2['default'].createElement(
+      'div',
+      { className: 'singleImage' },
+      _react2['default'].createElement(
+        'div',
+        { className: 'collection-header' },
+        _react2['default'].createElement(
+          'h2',
+          { className: 'header-text' },
+          'Bombay Talkies...'
+        ),
+        _react2['default'].createElement('img', { className: 'header-image', src: 'http://www.daveandchad.com/wp-content/uploads/2015/07/bolly.jpg' })
+      ),
+      _react2['default'].createElement(
+        'div',
+        { className: 'buttons' },
+        _react2['default'].createElement(
+          'button',
+          { onClick: this.HomeClickHandler, className: 'home' },
+          'Home'
+        )
+      ),
+      _react2['default'].createElement('hr', null),
+      _react2['default'].createElement(
+        'div',
+        { className: 'detailsEdit' },
+        _react2['default'].createElement(
+          'p',
+          null,
+          'Edit Data Form'
+        ),
+        _react2['default'].createElement(
+          'div',
+          { className: 'edit-container' },
+          _react2['default'].createElement(
+            'form',
+            { className: 'edit-form' },
             _react2['default'].createElement(
-                'div',
-                { className: 'collection-header' },
-                _react2['default'].createElement(
-                    'h2',
-                    { className: 'header-text' },
-                    'Bombay Talkies...'
-                ),
-                _react2['default'].createElement('img', { className: 'header-image', src: 'http://www.daveandchad.com/wp-content/uploads/2015/07/bolly.jpg' })
+              'div',
+              null,
+              _react2['default'].createElement(
+                'label',
+                null,
+                'Id:'
+              ),
+              _react2['default'].createElement('input', { className: 'id',
+                onChange: this.setId,
+                type: 'text',
+                value: this.state.objectId })
             ),
             _react2['default'].createElement(
-                'div',
-                { className: 'buttons' },
-                _react2['default'].createElement(
-                    'button',
-                    { onClick: this.HomeClickHandler, className: 'home' },
-                    'Home'
-                ),
-                _react2['default'].createElement(
-                    'button',
-                    { onClick: this.AddClickHandler, className: 'add' },
-                    'Add'
-                )
+              'div',
+              null,
+              _react2['default'].createElement(
+                'label',
+                { className: 'edit-form-label' },
+                'Name:'
+              ),
+              _react2['default'].createElement('input', { className: 'hername',
+                type: 'text',
+                value: this.state.Fname,
+                onChange: this.updateName })
             ),
-            _react2['default'].createElement('hr', null),
             _react2['default'].createElement(
-                'div',
-                { className: 'detailsEdit' },
-                _react2['default'].createElement(
-                    'p',
-                    null,
-                    'EDIT DATA FORM'
-                ),
-                _react2['default'].createElement(
-                    'form',
-                    { className: 'edit-form' },
-                    _react2['default'].createElement(
-                        'label',
-                        { id: 'l1' },
-                        'Name: '
-                    ),
-                    _react2['default'].createElement('input', { type: 'text', value: this.state.herName, onChange: this.updateName, className: 'her-name' }),
-                    _react2['default'].createElement(
-                        'label',
-                        { id: 'l2' },
-                        'Picture URL :'
-                    ),
-                    _react2['default'].createElement('input', { type: 'text', value: this.state.photo, onChange: this.updatePhoto, className: 'photo' }),
-                    _react2['default'].createElement(
-                        'label',
-                        { id: 'l3' },
-                        'Number of years worked  :'
-                    ),
-                    _react2['default'].createElement('input', { type: 'text', value: this.state.joined, onChange: this.updateJoined, className: 'joined' }),
-                    _react2['default'].createElement(
-                        'label',
-                        { id: 'l4' },
-                        'Age :'
-                    ),
-                    _react2['default'].createElement('input', { type: 'text', value: this.state.age, onChange: this.updateAge, className: 'age' }),
-                    _react2['default'].createElement(
-                        'label',
-                        { id: 'l5' },
-                        'About  :'
-                    ),
-                    _react2['default'].createElement('input', { type: 'text', value: this.state.about, onChange: this.updateAbout, className: 'about-her' }),
-                    _react2['default'].createElement(
-                        'button',
-                        { onClick: this.SaveClickHandler, className: 'SAVE CHANGES' },
-                        'Save'
-                    )
-                )
+              'div',
+              null,
+              _react2['default'].createElement(
+                'label',
+                {
+                  className: 'edit-form-label' },
+                'PastePicture URL :'
+              ),
+              _react2['default'].createElement('input', {
+                className: 'photo',
+                type: 'text',
+                value: this.state.Photo,
+                onChange: this.updatePhoto })
             ),
-            _react2['default'].createElement('hr', null)
-        );
-    }
+            _react2['default'].createElement(
+              'div',
+              null,
+              _react2['default'].createElement(
+                'label',
+                {
+                  className: 'edit-form-label' },
+                'Number of years worked  :'
+              ),
+              _react2['default'].createElement('input', {
+                className: 'joined',
+                type: 'text',
+                value: this.state.Joined,
+                onChange: this.updateJoined })
+            ),
+            _react2['default'].createElement(
+              'div',
+              null,
+              _react2['default'].createElement(
+                'label',
+                {
+                  className: 'edit-form-label' },
+                'Age :'
+              ),
+              _react2['default'].createElement('input', {
+                className: 'age',
+                type: 'text',
+                value: this.state.Age,
+                onChange: this.updateAge })
+            ),
+            _react2['default'].createElement(
+              'div',
+              null,
+              _react2['default'].createElement(
+                'label',
+                {
+                  className: 'edit-form-label About' },
+                'About  :'
+              ),
+              _react2['default'].createElement('textarea', {
+                className: 'about',
+                type: 'text',
+                value: this.state.About,
+                onChange: this.updateAbout })
+            ),
+            _react2['default'].createElement(
+              'div',
+              { className: 'btn' },
+              _react2['default'].createElement(
+                'button',
+                {
+                  onClick: this.SaveClickHandler,
+                  className: 'save' },
+                'Save Changes'
+              )
+            )
+          )
+        )
+      )
+    );
+  }
 });
 
 exports['default'] = EditTemplate;

@@ -2079,7 +2079,8 @@ img.header-image {
   margin: 2% 10%; }
 
 .singleImage {
-  margin: 2%; }
+  margin: 2%;
+  border: 1px solid black; }
 
 .single {
   border-radius: 5%;
@@ -2110,5 +2111,65 @@ img.header-image {
   width: 200px;
   margin-right: 20%;
   margin-left: 0; }
+
+p {
+  text-align: center; }
+
+.detailsEdit {
+  width: 100%;
+  margin: 5% auto;
+  max-width: 68em;
+  margin-left: auto;
+  margin-right: auto; }
+  .detailsEdit::after {
+    clear: both;
+    content: "";
+    display: table; }
+
+.div {
+  display: block; }
+
+.hername, .photo, .joined, .age {
+  width: 200px;
+  line-height: 30px;
+  margin-bottom: 5px; }
+
+.about {
+  width: 200px;
+  height: 150px; }
+
+.edit-container {
+  border: 1px solid black;
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 48.82117%;
+  margin-left: 25.58941%; }
+  .edit-container:last-child {
+    margin-right: 0; }
+
+.edit-form {
+  width: 100%;
+  display: inline-block;
+  margin: 10% auto; }
+
+.edit-form-label {
+  line-height: 30px;
+  display: inline-block;
+  padding-left: 5%;
+  width: 200px; }
+
+.edit-form-label.About {
+  line-height: 30px;
+  display: inline-block;
+  vertical-align: top; }
+
+.btn {
+  margin: 5% auto;
+  width: 100%;
+  text-align: center; }
+
+.save {
+  margin: 5% auto; }
 
 /*# sourceMappingURL=main.css.map */

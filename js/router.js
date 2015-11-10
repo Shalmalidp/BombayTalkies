@@ -3,6 +3,7 @@ import Backbone from 'backbone';
 import React from 'react';
 import ReactDom from 'react-dom';
 import './ajax_setup';
+import $ from 'jquery';
 
 import ArtistTemplate       from './views/artist_model_template';
 import BollywoodTemplate    from './views/bollywood_collection_template';
@@ -22,9 +23,9 @@ let Router = Backbone.Router.extend({
 
 routes: {
   ""              : "home", // redirect homescreen to bollywood pics
-  "Artist/:id"   : "showArtist",
+  "Artist/:id"    : "showArtist",
   "addForm"       : "showformAdd", 
-  "editForm/:id"      : "showformEdit"
+  "editForm/:id"  : "showformEdit"
 }, //end of routes
     
 initialize(appElement) {
@@ -55,7 +56,6 @@ this.navigate(route, {trigger: true});
 home() {
   //fetching data from the collection instance to act on it 
       this.collection.fetch().then(() => {
-       //console.log(collection);//fetch error
 //new way
          this.render(
           <BollywoodTemplate 
@@ -80,24 +80,69 @@ showArtist(id){
       this.render(
         <ArtistTemplate 
         data={photo.toJSON()}
-        homeBtnClick={ () =>this.goto('')}
-        editBtnClick={ () =>this.goto('editForm/'+id ,{replace : true})}/>);
+        editBtnClick={ (id) =>this.goto('editForm/'+ id)}
+        homeBtnClick={ () =>this.goto('')} />);
+     
     } 
     else {
       //console.log('adding this model');
-      photo = this.collection.add(id);
+      photo = this.collection.add({objectId : id});
       photo.fetch().then( () => {
-      this.render(<ArtistTemplate data={photo.toJSON()}
-      homeBtnClick={ () =>this.goto('')}
-      editBtnClick={ () =>this.goto('editForm/'+id,{replace:true})}/>);
+      this.render(<ArtistTemplate 
+        data={photo.toJSON()}
+        editBtnClick={ (id) =>this.goto('editForm/'+ id)}
+        homeBtnClick={ () =>this.goto('')}/>);
       });
     }
 },
 
+// EDITING EXISTING DATA
+showformEdit(id){
+  let getinfo = this.collection.get(id);
+    if(getinfo){
+      console.log('A', getinfo.toJSON());
+      this.render(<EditTemplate 
+                    homeBtnClick={()=> this.goto('')}
+                    data={getinfo.toJSON()}
+                    saveBtnClick={(Fname,Picture,Joined,Age,About) =>
+                    this.saveEditedData(id, Fname,Picture,Joined,Age,About)}/>);
+    }
+    else{
+      getinfo = this.collection.add({objectId : id});
+      getinfo.fetch().then(() =>{
+        console.log('B', getinfo.toJSON());
+        this.render(<EditTemplate 
+                    data={getinfo.toJSON()}
+                    saveBtnClick={(id, Fname,Picture,Joined,Age,About) =>
+                    this.saveEditedData(Fname,Picture,Joined,Age,About)}/>);
+        console.log('BB');
+      })
+    }
+    console.log('logging toJSON', getinfo.toJSON());
+},
+
+//SAVING EDITED DATA....
+saveEditedData(id,Fname,Picture,Joined,Age,About){
+  this.collection.get(id).save({
+    objectId :id,
+    Fname    :Fname,
+    Picture  :Picture,
+    Joined   :Joined,
+    Age      :Age,
+    About    :About
+  }).then(() => {
+      alert('UPDATED CHANGES.');
+      this.goto('');
+    });
+},
+
+
+
+//ADD NEW ACTORS
 showformAdd(){
 this.render(<AddTemplate 
   data={this.collection.toJSON()}
-  editBtnClick={() =>this.goto('editForm/'+id)}
+  editBtnClick={() =>this.goto('editForm/'+ id)}
   homeBtnClick={() =>this.goto('')}
   saveBtnClick={() =>{
     // event.preventDefault();
@@ -109,7 +154,7 @@ this.render(<AddTemplate
     console.log('new user',newUserName);
 
     let model = new ArtistModel({
-      Name   : newUserName,
+      Fname   : newUserName,
       Picture: newPhotoUrl,
       Joined : newUserJoined,
       Age    : Number(newUserAge),
@@ -125,16 +170,8 @@ this.render(<AddTemplate
       });
   }
 }/>);
-},
+}
 
-
-showformEdit(id){
-  let singleItem = this.collection.get(id);
-  this.render(<EditTemplate
-    data ={singleItem.toJSON()}
-    homeBtnClick={() =>this.goto(''),{replace:true}}
-    AddBtnClick={() =>this.goto('addForm')}/>)}
 
 });
-
 export default Router;

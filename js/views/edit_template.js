@@ -3,94 +3,174 @@ import React from 'react';
 
 let EditTemplate = React.createClass({
 
-	getIntialState(){
-		return ({
-			herName: this.props.data.herName,
-            photo:this.props.data.photo,
-            joined:this.props.data.joined,
-            age:this.props.data.age,
-            about:this.props.data.about
-		});
-	},
+    getInitialState(){
+        console.log('yy');
+        console.log('zz', this.props.data);
+        return ({
+            objectId: this.props.data.objectId,
+            Fname   : this.props.data.Fname,
+            Picture : this.props.data.Picture,
+            Joined  : this.props.data.Joined,
+            Age     : this.props.data.Age,
+            About   : this.props.data.About
+        });
+    },
 
-	HomeClickHandler(){
+    setId(event) {
+    let newId = event.currentTarget.value;
+    this.setState({objectId: newId});
+    },
+
+    HomeClickHandler(){
     this.props.homeBtnClick();
-  	},
-	
-	AddClickHandler(){
-  	this.props.AddBtnClick();
-	},
+    },
+    
+    AddClickHandler(){
+    this.props.AddBtnClick();
+    },
 
-  	SaveClickHandler(event){
-    	event.preventDefault();
-    	console.log('this button was clicked');
-    	this.props.saveBtnClick();
-  	},
+    SaveClickHandler(event){
+        event.preventDefault();
+        console.log('this button was clicked');
+        this.props.saveBtnClick(
+          this.state.objectId,
+          this.state.Fname,
+          this.state.Picture,
+          this.state.Joined,
+          this.state.Age,
+          this.state.About
+          );
+      console.log(this.state.Fname);
+    },
 
-
-	updateName(event){
-		let herName = event.target.value;
-		this.setState({
-			herName:herName
-		})
-	},
+    updateName(event){
+        let herName = event.target.value;
+        this.setState({
+            Fname:herName
+        })
+    },
     updatePhoto(event){
         let photo = event.target.value;
         this.setState({
-            photo:photo
+            Picture:photo
         })
     },
     updateAge(event){
         let age = event.target.value;
         this.setState({
-            age:age
+            Age:age
         })
     },
     updateJoined(event){
         let joined = event.target.value;
         this.setState({
-            joined:joined
+            Joined:joined
         })
     },
     updateAbout(event){
-        let About = event.target.value;
+        let about = event.target.value;
         this.setState({
-            about:about
+            About:about
         })
     },
+         //MOVED FROM THE RENDER <button onClick={this.AddClickHandler} className='add'>Add</button>
 
   render() {
+    console.log('qqq');
     return (
-    	<div className='singleImage'>
-            <div className='collection-header'>
-            <h2 className='header-text'>Bombay Talkies...</h2>
-            <img className="header-image" src='http://www.daveandchad.com/wp-content/uploads/2015/07/bolly.jpg' />
+      <div className='singleImage'>
+        <div className='collection-header'>
+          <h2 className='header-text'>Bombay Talkies...</h2>
+          <img className="header-image" src='http://www.daveandchad.com/wp-content/uploads/2015/07/bolly.jpg' />
         </div>
         <div className='buttons'>
-            <button onClick={this.HomeClickHandler} className='home'>Home</button>
-            <button onClick={this.AddClickHandler} className='add'>Add</button>
+          <button onClick={this.HomeClickHandler} className='home'>Home</button>
         </div>
         <hr/>
         <div className='detailsEdit'>
-                <p>EDIT DATA FORM</p>
+          <p>Edit Data Form</p>
+          <div className="edit-container">
             <form className='edit-form'>
-                <label id='l1'>Name: </label>
-                <input type='text' value={this.state.herName} onChange={this.updateName} className='her-name'/>
-                <label id='l2'>Picture URL :</label> 
-                <input type='text' value={this.state.photo} onChange={this.updatePhoto} className='photo'/>
-                <label id='l3'>Number of years worked  :</label>
-                <input type='text'value={this.state.joined} onChange={this.updateJoined} className='joined'/>
-                <label id='l4'>Age :</label>
-                <input type='text' value={this.state.age} onChange={this.updateAge} className='age'/>
-                <label id='l5'>About  :</label>
-                <input type='text' value={this.state.about} onChange={this.updateAbout} className='about-her'/>
-                <button onClick ={this.SaveClickHandler} className='SAVE CHANGES'>Save</button>             
-            </form>
-        </div>
-        <hr/>
-  </div>
+              
+              <div>
+                <label>
+                  Id:
+                </label> 
+                <input className="id"
+                  onChange={this.setId} 
+                  type="text"  
+                  value={this.state.objectId}/>
+              </div>
 
-      
+              <div>
+                <label className='edit-form-label'>
+                  Name: 
+                </label>
+                <input className='hername' 
+                  type='text' 
+                  value={this.state.Fname} 
+                  onChange={this.updateName}/>
+              </div>
+             
+              <div>
+                <label
+                  className='edit-form-label'>
+                  PastePicture URL :
+                </label>
+                <input
+                 className='photo' 
+                 type='text' 
+                 value={this.state.Photo} 
+                 onChange={this.updatePhoto}/>
+              </div> 
+             
+              <div>
+                <label
+                 className='edit-form-label'>
+                 Number of years worked  :
+                </label>
+                <input
+                 className='joined' 
+                 type='text'
+                 value={this.state.Joined} 
+                 onChange={this.updateJoined}/>
+              </div>
+             
+              <div>  
+                <label
+                 className='edit-form-label'>
+                 Age :
+                </label>
+                <input
+                 className='age'
+                 type='text' 
+                 value={this.state.Age} 
+                 onChange={this.updateAge}/>
+              </div>
+             
+              <div>   
+                <label
+                 className='edit-form-label About'>
+                 About  :
+                </label>
+                <textarea
+                 className='about' 
+                 type='text' 
+                 value={this.state.About} 
+                 onChange={this.updateAbout} />
+              </div>
+             <div className='btn'>
+              <button 
+                onClick ={this.SaveClickHandler} 
+                className='save'>
+                Save Changes
+              </button>             
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    
     );
   }
 });
