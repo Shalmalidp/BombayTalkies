@@ -93,7 +93,7 @@ let EditTemplate = React.createClass({
             <form className='edit-form'>
               
               <div>
-                <label>
+                <label className='edit-form-label'>
                   Id:
                 </label> 
                 <input className="id"

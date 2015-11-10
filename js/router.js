@@ -104,7 +104,7 @@ showformEdit(id){
       this.render(<EditTemplate 
                     homeBtnClick={()=> this.goto('')}
                     data={getinfo.toJSON()}
-                    saveBtnClick={(Fname,Picture,Joined,Age,About) =>
+                    saveBtnClick={(id,Fname,Picture,Joined,Age,About) =>
                     this.saveEditedData(id, Fname,Picture,Joined,Age,About)}/>);
     }
     else{
@@ -114,7 +114,7 @@ showformEdit(id){
         this.render(<EditTemplate 
                     data={getinfo.toJSON()}
                     saveBtnClick={(id, Fname,Picture,Joined,Age,About) =>
-                    this.saveEditedData(Fname,Picture,Joined,Age,About)}/>);
+                    this.saveEditedData(id,Fname,Picture,Joined,Age,About)}/>);
         console.log('BB');
       })
     }

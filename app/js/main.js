@@ -289,7 +289,7 @@ var Router = _backbone2['default'].Router.extend({
           return _this3.goto('');
         },
         data: getinfo.toJSON(),
-        saveBtnClick: function (Fname, Picture, Joined, Age, About) {
+        saveBtnClick: function (id, Fname, Picture, Joined, Age, About) {
           return _this3.saveEditedData(id, Fname, Picture, Joined, Age, About);
         } }));
     } else {
@@ -299,7 +299,7 @@ var Router = _backbone2['default'].Router.extend({
         _this3.render(_react2['default'].createElement(_viewsEdit_template2['default'], {
           data: getinfo.toJSON(),
           saveBtnClick: function (id, Fname, Picture, Joined, Age, About) {
-            return _this3.saveEditedData(Fname, Picture, Joined, Age, About);
+            return _this3.saveEditedData(id, Fname, Picture, Joined, Age, About);
           } }));
         console.log('BB');
       });
@@ -812,7 +812,7 @@ var EditTemplate = _react2['default'].createClass({
               null,
               _react2['default'].createElement(
                 'label',
-                null,
+                { className: 'edit-form-label' },
                 'Id:'
               ),
               _react2['default'].createElement('input', { className: 'id',

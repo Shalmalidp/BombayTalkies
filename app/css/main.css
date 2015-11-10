@@ -2129,7 +2129,7 @@ p {
 .div {
   display: block; }
 
-.hername, .photo, .joined, .age {
+.hername, .photo, .joined, .age, .id {
   width: 200px;
   line-height: 30px;
   margin-bottom: 5px; }
@@ -2137,6 +2137,10 @@ p {
 .about {
   width: 200px;
   height: 150px; }
+
+.id {
+  background-color: #E2EBF3;
+  border: none; }
 
 .edit-container {
   border: 1px solid black;
