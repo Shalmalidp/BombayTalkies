@@ -2093,24 +2093,48 @@ img.header-image {
   vertical-align: top; }
 
 .detailsAdd {
-  width: 100%; }
+  width: 100%;
+  margin: 5% auto;
+  max-width: 68em;
+  margin-left: auto;
+  margin-right: auto; }
+  .detailsAdd::after {
+    clear: both;
+    content: "";
+    display: table; }
+
+.add-container {
+  border: 1px solid black;
+  float: left;
+  display: block;
+  margin-right: 2.35765%;
+  width: 48.82117%;
+  margin-left: 25.58941%; }
+  .add-container:last-child {
+    margin-right: 0; }
+
+.add-form-label {
+  line-height: 30px;
+  display: inline-block;
+  margin: 10px auto;
+  width: 250px;
+  text-align: left; }
 
 .add-form {
-  margin: 4% auto;
-  vertical-align: middle;
-  border: 1px solid black;
-  width: 50%;
-  height: 250px; }
+  width: 100%;
+  display: inline-block;
+  margin: 5% auto; }
 
-#l1, #l2 {
-  margin: 15%;
-  line-height: 2em;
-  margin-bottom: 15%; }
+.add-form-label {
+  line-height: 30px;
+  display: inline-block;
+  padding-left: 5%;
+  width: 200px; }
 
-.her-name, .photo {
-  width: 200px;
-  margin-right: 20%;
-  margin-left: 0; }
+.add-form-label.About {
+  line-height: 30px;
+  display: inline-block;
+  vertical-align: top; }
 
 p {
   text-align: center; }
@@ -2130,17 +2154,18 @@ p {
   display: block; }
 
 .hername, .photo, .joined, .age, .id {
-  width: 200px;
+  width: 220px;
   line-height: 30px;
   margin-bottom: 5px; }
 
 .about {
-  width: 200px;
+  width: 220px;
   height: 150px; }
 
 .id {
   background-color: #E2EBF3;
-  border: none; }
+  border: none;
+  display: none; }
 
 .edit-container {
   border: 1px solid black;

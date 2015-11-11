@@ -84,31 +84,48 @@ body {
     	vertical-align:top;
     }
     
-    .detailsAdd{
-        width:100%;
-    }
 
-//Add form template SCSS
+// --- Add FORM ---
+
+
+.detailsAdd{
+  width:100%;
+  margin:5% auto;
+  @include outer-container;
+}
+
+.add-container{
+    border:1px solid black;  
+    @include span-columns(6);
+    @include shift(3);
+}
+
+.add-form-label{
+    line-height: 30px;
+    display: inline-block;
+    margin :10px auto;
+    width: 250px;
+    text-align:left;
+}
 
 .add-form{
-    margin : 4% auto;
-    vertical-align:middle;
-    //text-align:center;
-    border:1px solid black;
-    width:50%;
-    height:250px;
+  width: 100%;
+  display: inline-block;
+  margin: 5% auto;
 }
-#l1, #l2{ 
-    margin: 15%;
-    line-height:2em;
-    margin-bottom:15%;
+.add-form-label {
+    line-height: 30px;
+    display: inline-block;
+    padding-left: 5%;
+    width: 200px;   
+}
 
+.add-form-label.About{
+    line-height: 30px;
+    display: inline-block;
+    vertical-align:top;
 }
-.her-name, .photo{
-    width :200px;
-    margin-right:20%;
-    margin-left :0;
-}
+
 
 // --- EDIT FORM ---
 
@@ -125,25 +142,24 @@ p{
 }
 
  .hername, .photo, .joined, .age, .id{
-    width: 200px;
+    width: 220px;
     line-height:30px;
     margin-bottom :5px;
  }
  .about{
-    width : 200px;
+    width : 220px;
     height : 150px;
  }
 
 .id{
     background-color:#E2EBF3;
     border:none;
+    display :none;
 }
 
 
 .edit-container{
     border:1px solid black;
-    //width: 60%;   
-    //display:inline-block;
     @include span-columns(6);
     @include shift(3);
 }
@@ -158,9 +174,7 @@ p{
     line-height: 30px;
     display: inline-block;
     padding-left: 5%;
-    //padding-right: 5%;
-    width: 200px;
-    
+    width: 200px;   
 }
 
 .edit-form-label.About{
@@ -172,7 +186,7 @@ p{
 .btn{
     margin: 5% auto;
    width :100%;
-   //border : 1px solid red;
+ //  border : 1px solid red;
    text-align:center;
 }
 .save{

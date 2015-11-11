@@ -91,11 +91,7 @@ let EditTemplate = React.createClass({
           <p>Edit Data Form</p>
           <div className="edit-container">
             <form className='edit-form'>
-              
               <div>
-                <label className='edit-form-label'>
-                  Id:
-                </label> 
                 <input className="id"
                   onChange={this.setId} 
                   type="text"  

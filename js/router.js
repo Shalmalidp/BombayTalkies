@@ -112,6 +112,7 @@ showformEdit(id){
       getinfo.fetch().then(() =>{
         console.log('B', getinfo.toJSON());
         this.render(<EditTemplate 
+                    homeBtnClick={()=> this.goto('')}
                     data={getinfo.toJSON()}
                     saveBtnClick={(id, Fname,Picture,Joined,Age,About) =>
                     this.saveEditedData(id,Fname,Picture,Joined,Age,About)}/>);
@@ -142,15 +143,14 @@ saveEditedData(id,Fname,Picture,Joined,Age,About){
 showformAdd(){
 this.render(<AddTemplate 
   data={this.collection.toJSON()}
-  editBtnClick={() =>this.goto('editForm/'+ id)}
   homeBtnClick={() =>this.goto('')}
   saveBtnClick={() =>{
     // event.preventDefault();
-    let newUserName  = document.querySelector('.her-name').value;
+    let newUserName  = document.querySelector('.hername').value;
     let newPhotoUrl  = document.querySelector('.photo').value;
     let newUserJoined= document.querySelector('.joined').value;
     let newUserAge   = document.querySelector('.age').value;
-    let newUserAbout = document.querySelector('.about-her').value;
+    let newUserAbout = document.querySelector('.about').value;
     console.log('new user',newUserName);
 
     let model = new ArtistModel({
