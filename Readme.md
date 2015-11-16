@@ -1,5 +1,11 @@
 ## Welcome to My Project
 
+> We learned React Backbone using Parse as the backend.
+
+>this Project is Called BombayTalkies, its a small collection of Indian Actresses, its my first Attempt and CRU >application we had not ventured into Deleting information.
+
+>Next week we will be doing a CRUD application using Angular.
+
 > To see my webpage Please visit :http://uneven-island.surge.sh
 
 
