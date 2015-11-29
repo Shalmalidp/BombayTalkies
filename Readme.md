@@ -6,7 +6,7 @@
 
 >Next week we will be doing a CRUD application using Angular.
 
-> To see my webpage Please visit :http://uneven-island.surge.sh
+> To see my webpage Please visit : http://bombaytalkies.surge.sh
 
 
 ## Usage
