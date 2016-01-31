@@ -1,6 +1,12 @@
 ## Welcome to My Project
 
-> I am your Readme.md file, you should probably update me.
+> We learned React Backbone using Parse as the backend.
+
+>this Project is Called BombayTalkies, its a small collection of Indian Actresses, its my first Attempt and CRU >application we had not ventured into Deleting information.
+
+>Next week we will be doing a CRUD application using Angular.
+
+> To see my webpage Please visit : http://bombaytalkies.surge.sh
 
 
 ## Usage
