@@ -33,7 +33,7 @@ let EditTemplate = React.createClass({
         event.preventDefault();
         console.log('this button was clicked');
         this.props.saveBtnClick(
-          this.state.objectId,
+          this.props.data.objectId,
           this.state.Fname,
           this.state.Picture,
           this.state.Joined,
@@ -88,7 +88,7 @@ let EditTemplate = React.createClass({
         </div>
         <hr/>
         <div className='detailsEdit'>
-          <p>Edit Data Form</p>
+          <p className = 'editData'>Edit Data Form</p>
           <div className="edit-container">
             <form className='edit-form'>
               <div>

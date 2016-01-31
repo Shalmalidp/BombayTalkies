@@ -35,17 +35,17 @@ return(
         </div>
         <div className='buttons'>
             <button onClick={this.HomeClickHandler} className='home'>Home</button>
-            
+            <button onClick={() => this.EditClickHandler(this.props.data.objectId)} className='edit'>Edit</button>
         </div>
         <hr/>
     
     	<img className='single' width='300px' height='300px' src={this.props.data.Picture}/>
     	<div className='details'>
-    		<p>Name <i className="fa fa-heart"> </i>{this.props.data.Fname}</p>
-    		<p>Number of years worked  :  {this.props.data.Joined}</p>
-    		<p>Age  :  {this.props.data.Age} years </p>
-    		<p>About   :  {this.props.data.About}</p>
-        <button onClick={() => this.EditClickHandler(this.props.data.objectId)} className='edit'>Edit</button>
+    		<p><span>Name  :</span> {this.props.data.Fname}</p>
+    		<p><span>Number of years worked  : </span>  {this.props.data.Joined}</p>
+    		<p><span>Age  : </span> {this.props.data.Age} years </p>
+    		<p><span>About   : </span> {this.props.data.About}</p>
+        
   		</div>
   		<hr/>
   </div>

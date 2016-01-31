@@ -422,7 +422,7 @@ var AddTemplate = _react2['default'].createClass({
         { className: 'detailsAdd' },
         _react2['default'].createElement(
           'p',
-          null,
+          { className: 'addData' },
           'Add New Artist'
         ),
         _react2['default'].createElement(
@@ -583,6 +583,13 @@ var ArtistTemplate = _react2['default'].createClass({
           'button',
           { onClick: this.HomeClickHandler, className: 'home' },
           'Home'
+        ),
+        _react2['default'].createElement(
+          'button',
+          { onClick: function () {
+              return _this.EditClickHandler(_this.props.data.objectId);
+            }, className: 'edit' },
+          'Edit'
         )
       ),
       _react2['default'].createElement('hr', null),
@@ -593,39 +600,47 @@ var ArtistTemplate = _react2['default'].createClass({
         _react2['default'].createElement(
           'p',
           null,
-          'Name ',
           _react2['default'].createElement(
-            'i',
-            { className: 'fa fa-heart' },
-            ' '
+            'span',
+            null,
+            'Name  :'
           ),
+          ' ',
           this.props.data.Fname
         ),
         _react2['default'].createElement(
           'p',
           null,
-          'Number of years worked  :  ',
+          _react2['default'].createElement(
+            'span',
+            null,
+            'Number of years worked  : '
+          ),
+          '  ',
           this.props.data.Joined
         ),
         _react2['default'].createElement(
           'p',
           null,
-          'Age  :  ',
+          _react2['default'].createElement(
+            'span',
+            null,
+            'Age  : '
+          ),
+          ' ',
           this.props.data.Age,
           ' years '
         ),
         _react2['default'].createElement(
           'p',
           null,
-          'About   :  ',
+          _react2['default'].createElement(
+            'span',
+            null,
+            'About   : '
+          ),
+          ' ',
           this.props.data.About
-        ),
-        _react2['default'].createElement(
-          'button',
-          { onClick: function () {
-              return _this.EditClickHandler(_this.props.data.objectId);
-            }, className: 'edit' },
-          'Edit'
         )
       ),
       _react2['default'].createElement('hr', null)
@@ -774,7 +789,7 @@ var EditTemplate = _react2['default'].createClass({
   SaveClickHandler: function SaveClickHandler(event) {
     event.preventDefault();
     console.log('this button was clicked');
-    this.props.saveBtnClick(this.state.objectId, this.state.Fname, this.state.Picture, this.state.Joined, this.state.Age, this.state.About);
+    this.props.saveBtnClick(this.props.data.objectId, this.state.Fname, this.state.Picture, this.state.Joined, this.state.Age, this.state.About);
     console.log(this.state.Fname);
   },
 
@@ -840,7 +855,7 @@ var EditTemplate = _react2['default'].createClass({
         { className: 'detailsEdit' },
         _react2['default'].createElement(
           'p',
-          null,
+          { className: 'editData' },
           'Edit Data Form'
         ),
         _react2['default'].createElement(

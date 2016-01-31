@@ -24,7 +24,7 @@ let AddTemplate = React.createClass({
         </div>
         <hr/>
         <div className='detailsAdd'>
-            <p>Add New Artist</p>
+            <p className="addData">Add New Artist</p>
             <div className='add-container'>
               <form className='add-form'>
                 <div>
